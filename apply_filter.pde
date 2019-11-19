@@ -11,11 +11,10 @@ class FilterApplier {
       case GREYSCALE:
         return applyGreyscale(image);
       case CONVOLUTION:
-        return null;
+        return image;
       case NONE:
-        return null;
-      default:
-        return null;
+        return image;
+  
     }
   }
   
