@@ -1,4 +1,4 @@
-class Image {
+class Image{
   PImage img;
   int img_width;
   int img_height;
