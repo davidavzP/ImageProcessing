@@ -1,11 +1,26 @@
 class Image{
+  
   PImage img;
+  PImage original_img;
   int img_width;
   int img_height;
+  FilterApplier filter_applier = new FilterApplier();
+  Filter next_filter = Filter.NONE;
+  
+  void newFilter(Filter filter){
+    next_filter = filter;
+  }
+  
+  void filterChanged(){
+    if(next_filter != Filter.NONE){
+      apply_filter();
+    }
+  }
   
   //loads an Image from a file
   Image(String file){
     img = loadImage(file);
+    original_img = img;
     this.img_width = img.width;
     this.img_height = img.height;
   }
@@ -13,11 +28,15 @@ class Image{
   //creates an Emtpy Image
   Image(int img_width, int img_height){
     img = createImage(img_width, img_height, RGB);
+    original_img = img;
     this.img_width = img.width;
     this.img_height = img.height;
     
   }
   
+  void apply_filter(){
+    img = filter_applier.apply(next_filter, img);
+  }
   
   void resize_img(int new_width, int new_height){
     this.img_width = new_width;
