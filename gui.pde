@@ -1,5 +1,6 @@
 void createDropdownList(){
   ddarray1 = new DropDownArray();
+  // cp5 is the gui
   d1 = cp5.addDropdownList("Filter List")
           .setPosition(620, 50);
   customize(d1);
@@ -34,14 +35,7 @@ void controlEvent(ControlEvent theEvent) {
     int clicked = int(theEvent.getController().getValue()); 
     Filter filter = ddarray1.fromIndex(clicked);
     println(" Filter: " + filter.asString());
-    switch(filter){
-      case GREYSCALE:
-        break;
-      case CONVOLUTION:
-        break;
-      case NONE:
-        break;
-     
-    }
+    img_gui.newFilter(filter);
+    
   }
 }

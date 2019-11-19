@@ -5,14 +5,15 @@ enum Filter{
             return GREYSCALE.toString();
         }
       
-   },
+  },
   CONVOLUTION{
     @Override
         public String asString() {
             return CONVOLUTION.toString();
         }
   
-  },NONE{
+  },
+  NONE{
     @Override
         public String asString() {
             return NONE.toString();

@@ -10,6 +10,19 @@ void apply_greyscale(){
   }
 }
 
+void apply_greyscale(PImage img){
+  img.loadPixels();
+  for(int x = 0; x < img.width; x++){
+    for(int y = 0; y < img.height; y++){
+      //do image processing
+      int pixel_loc = x + y*img.width;
+      img.pixels[pixel_loc] = basic_greyscale(pixel_loc);
+    }
+  }
+  img.updatePixels();
+}
+
+
 void preform_convolution(Image image, float[][] matrix){
   for(int x = 0; x < img.getWidth(); x++){
     for(int y = 0; y < img.getHeight(); y++){
