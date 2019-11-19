@@ -14,8 +14,9 @@ class FilterApplier {
         return image;
       case NONE:
         return image;
-  
     }
+    
+    return image;
   }
   
   PImage applyGreyscale(PImage img){
