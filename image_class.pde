@@ -7,20 +7,10 @@ class Image{
   FilterApplier filter_applier = new FilterApplier();
   Filter next_filter = Filter.NONE;
   
-  void newFilter(Filter filter){
-    next_filter = filter;
-  }
-  
-  void filterChanged(){
-    if(next_filter != Filter.NONE){
-      apply_filter();
-    }
-  }
-  
-  //loads an Image from a file
+   //loads an Image from a file
   Image(String file){
     img = loadImage(file);
-    original_img = img;
+    original_img = loadImage(file);
     this.img_width = img.width;
     this.img_height = img.height;
   }
@@ -28,10 +18,22 @@ class Image{
   //creates an Emtpy Image
   Image(int img_width, int img_height){
     img = createImage(img_width, img_height, RGB);
-    original_img = img;
+    original_img = createImage(img_width, img_height, RGB);
     this.img_width = img.width;
     this.img_height = img.height;
-    
+  }
+  
+  void newFilter(Filter filter){
+    next_filter = filter;
+  }
+  
+  void filterChanged(){
+    if(next_filter != Filter.NONE){
+      img.copy(original_img, 0, 0, img_width, img_height, 0, 0, img_width, img_height);
+      apply_filter();
+    } else {
+      img.copy(original_img, 0, 0, img_width, img_height, 0, 0, img_width, img_height);
+    }
   }
   
   void apply_filter(){
@@ -42,6 +44,7 @@ class Image{
     this.img_width = new_width;
     this.img_height = new_height;
     this.img.resize(img_width, img_height);
+    this.original_img.resize(img_width, img_height);
   }
   
   void setPixel(int pixel_loc, color c){
