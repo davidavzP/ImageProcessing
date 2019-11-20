@@ -28,11 +28,10 @@ class Image{
   }
   
   void filterChanged(){
+    img.copy(original_img, 0, 0, img_width, img_height, 0, 0, img_width, img_height);
+    
     if(next_filter != Filter.NONE){
-      img.copy(original_img, 0, 0, img_width, img_height, 0, 0, img_width, img_height);
       apply_filter();
-    } else {
-      img.copy(original_img, 0, 0, img_width, img_height, 0, 0, img_width, img_height);
     }
   }
   
