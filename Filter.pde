@@ -6,6 +6,13 @@ enum Filter{
         }
       
   },
+  NEGATIVE{
+  @Override
+        public String asString() {
+            return NEGATIVE.toString();
+        }
+      
+  },
   CONVOLUTION{
     @Override
         public String asString() {

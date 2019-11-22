@@ -18,13 +18,13 @@ PShape square;
 int conv_matrix_size = 3;
 //this can be changed to anything
 //below is an edge detection filter
-float[][] conv_matrix = {{0, 0, 0},
-                         {-1, 1, 0},
-                         {0, 0, 0}};
+float[][] conv_matrix = {{-1, -1, -1},
+                         {-1, 8, -1},
+                         {-1, -1, -1}};
                          
-float[][] conv_matrix_2 = {{0, -1, -1},
-                           {0, 5, -1},
-                           {0, -1, -1}};
+float[][] conv_matrix_2 = {{-1, -1, -1},
+                           {-1, 8, -1},
+                           {-1, -1, -1}};
 
                
 //this setup() function runs before anything else               

@@ -14,6 +14,8 @@ class FilterApplier {
     switch(filter){
       case GREYSCALE:
         return applyGreyscale(image);
+      case NEGATIVE:
+        return applyNegative(image);
       case CONVOLUTION:
         return applyConvolution(image, conv_matrix);
       case NONE:
@@ -52,6 +54,11 @@ class FilterApplier {
         img.pixels[pixel_loc] = convolution(img, x, y, matrix);
       }
     }
+    return img;
+  }
+
+PImage applyNegative(PImage img){
+    for(int i = 0; i < img.pixels.length; i++) img.pixels[i] = color(255 - red(img.pixels[i]), 255 - green(img.pixels[i]), 255 - blue(img.pixels[i]));
     return img;
   }
 
