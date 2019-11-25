@@ -25,18 +25,13 @@ class Image{
   
   void newFilter(Filter filter){
     next_filter = filter;
+    if (filter != Filter.NONE) filter_applier.toggleFilter(filter);
+    else filter_applier.removeAll();
   }
   
   void filterChanged(){
-    img.copy(original_img, 0, 0, img_width, img_height, 0, 0, img_width, img_height);
-    
-    if(next_filter != Filter.NONE){
-      apply_filter();
-    }
-  }
-  
-  void apply_filter(){
-    img = filter_applier.apply(next_filter, img);
+   img.copy(original_img, 0, 0, img_width, img_height, 0, 0, img_width, img_height);
+   img = filter_applier.apply(this);
   }
   
   void resize_img(int new_width, int new_height){
@@ -50,9 +45,12 @@ class Image{
     img.pixels[pixel_loc] = c;
   }
   
-  void setPixelxy(int x, int y, color c){
-    int pixel_loc = getPixelLocation(x,y);
-    img.pixels[pixel_loc] = c;
+  void setPixelXY(int x, int y, color c){
+    img.set(x,y,c);
+  }
+  
+  color getPixelXY(int x, int y){
+    return img.get(x,y);
   }
   
   int getPixelLocation(int x, int y){
