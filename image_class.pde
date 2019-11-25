@@ -23,6 +23,7 @@ class Image{
     this.img_height = img.height;
   }
   
+  
   void newFilter(Filter filter){
     next_filter = filter;
     if (filter != Filter.NONE) filter_applier.toggleFilter(filter);
@@ -41,8 +42,17 @@ class Image{
     this.original_img.resize(img_width, img_height);
   }
   
+  void changeChannel(int val){
+    img.copy(original_img, 0, 0, img_width, img_height, 0, 0, img_width, img_height);
+    int c = val;
+    img =  filter_applier.changeRedChannel(this, c);
+
+  }
+  
+  
+  
   void setPixel(int pixel_loc, color c){
-    img.pixels[pixel_loc] = c;
+     img.pixels[pixel_loc] = c;
   }
   
   void setPixelXY(int x, int y, color c){

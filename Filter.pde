@@ -41,6 +41,12 @@ enum Filter{
             return EDGE.toString();
         }
   },
+  REDCHANNEL{
+    @Override
+        public String asString() {
+            return REDCHANNEL.toString();
+        }
+  },
   NONE{
     @Override
         public String asString() {

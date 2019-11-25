@@ -8,6 +8,7 @@ class FilterApplier {
   float[][] conv_matrix = { { -1 , -1 , -1},
                             {  0 ,  3 ,  0},
                             {  0 ,  0 ,  0} };
+  int redVal = 0;
   
   void setConvolutionMatrix(Convolution  conv){
     conv_matrix = conv.getMatrix();
@@ -71,6 +72,24 @@ class FilterApplier {
     return result.getImage();
   }
   
+  PImage changeRedChannel(Image img, int val){
+     redVal = val;
+     toggleFilter(Filter.REDCHANNEL);
+     for(int x = 0; x < img.getWidth(); x++){
+            for(int y = 0; y <  img.getHeight(); y++){
+              color original_Color = img.getPixelXY(x,y);
+              color new_color;
+              float red = red(original_Color);
+              float green = green(original_Color);
+              float blue = blue(original_Color);
+              new_color = color(val, green, blue);
+              img.setPixelXY(x,y, new_color);
+            }
+     }
+     return img.getImage();
+    
+  }
+ 
   Image applyGreyscale(Image img){
     Image result = new Image(img.getWidth(),img.getHeight());
     for(int x = 0; x < img.getWidth(); x++){

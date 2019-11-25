@@ -26,16 +26,40 @@ void customize(DropdownList ddl) {
   ddl.setColorActive(color(255, 128));
 }
 
+void createSliders(){
+  createRedSlider();
+}
+
+void createRedSlider(){
+  cp5.addSlider("Red Slider")
+     .setPosition(620,200)
+     .setSize(100,20)
+     .setRange(0,255)
+     .setValue(128)
+     ;
+}
+
+
+
 void controlEvent(ControlEvent theEvent) {
   if (theEvent.isGroup()) {
     println("event from group : "+theEvent.getGroup().getValue()+" from "+theEvent.getGroup());
   } 
   else if (theEvent.isController()) {
-    println("event from controller : "+theEvent.getController().getValue()+" from "+theEvent.getController());
-    int clicked = int(theEvent.getController().getValue()); 
-    Filter filter = ddarray1.fromIndex(clicked);
-    println(" Filter: " + filter.asString());
-    img_gui.newFilter(filter);
+      if (theEvent.isFrom(cp5.getController("Filter List"))) {
+        println("this event was triggered by Controller Fitler");
+        println("event from controller : "+theEvent.getController().getValue()+" from "+theEvent.getController());
+        int clicked = int(theEvent.getController().getValue()); 
+        Filter filter = ddarray1.fromIndex(clicked);
+        println(" Filter: " + filter.asString());
+        img_gui.newFilter(filter);
+      } else if(theEvent.isFrom(cp5.getController("Red Slider"))){
+        println("this event was triggered by Controller Red Slider");
+         println("event from controller : "+theEvent.getController().getValue()+" from "+theEvent.getController());
+          int clicked = int(theEvent.getController().getValue());
+          img_gui.changeChannel(clicked);
+      }
+    
     
   }
 }

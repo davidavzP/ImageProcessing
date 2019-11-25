@@ -18,6 +18,7 @@ void setup(){
   createImageFrame();
   cp5 = new ControlP5(this);
   createDropdownList();
+  createSliders();
 }
 
 

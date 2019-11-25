@@ -1,5 +1,9 @@
 class DropDownArray {
-  Filter[] filters = {Filter.NONE, Filter.GREYSCALE, Filter.NEGATIVE, Filter.EDGE, Filter.GAUSS, Filter.BOX_BLUR, Filter.SHARP, Filter.CONVOLUTION};
+  Filter[] filters = {Filter.NONE, Filter.GREYSCALE, 
+                      Filter.NEGATIVE, Filter.EDGE, 
+                      Filter.GAUSS, Filter.BOX_BLUR, 
+                      Filter.SHARP, Filter.CONVOLUTION,
+                      Filter.REDCHANNEL};
   
   int getSize(){
     return filters.length;
