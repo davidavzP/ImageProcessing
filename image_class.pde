@@ -6,6 +6,7 @@ class Image{
   int img_height;
   FilterApplier filter_applier = new FilterApplier();
   Filter next_filter = Filter.NONE;
+  int red_channel = 0;
   
    //loads an Image from a file
   Image(String file){
@@ -43,10 +44,7 @@ class Image{
   }
   
   void changeChannel(int val){
-    img.copy(original_img, 0, 0, img_width, img_height, 0, 0, img_width, img_height);
-    int c = val;
-    img =  filter_applier.changeRedChannel(this, c);
-
+    setRedChannel(val);
   }
   
   
@@ -85,6 +83,14 @@ class Image{
   
   int getHeight(){
     return img_height;
+  }
+  
+  void setRedChannel(int val){
+    this.red_channel = val;
+  }
+  
+  int getRedChannel(){
+     return this.red_channel;
   }
   
 }

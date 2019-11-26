@@ -8,7 +8,6 @@ class FilterApplier {
   float[][] conv_matrix = { { -1 , -1 , -1},
                             {  0 ,  3 ,  0},
                             {  0 ,  0 ,  0} };
-  int redVal = 0;
   
   void setConvolutionMatrix(Convolution  conv){
     conv_matrix = conv.getMatrix();
@@ -28,12 +27,17 @@ class FilterApplier {
   
   void removeAll(){
     applied_filters.clear();
+    addFilter(Filter.REDCHANNEL);
   }
   
   void toggleFilter(Filter filter)
   {
     if (!isApplied(filter)) applied_filters.add(filter);
-    else applied_filters .remove(filter);
+    else applied_filters.remove(filter);
+  }
+  
+  private FilterApplier(){
+     addFilter(Filter.REDCHANNEL);
   }
   
   PImage apply(Image image){
@@ -65,6 +69,9 @@ class FilterApplier {
         case CONVOLUTION:
           result = applyConvolution(result, new Matrix(conv_matrix, conv_matrix.length));
           break;
+        case REDCHANNEL:
+          result = changeRedChannel(result, result.getRedChannel());
+          break;
         default:
           break;
       }
@@ -72,9 +79,7 @@ class FilterApplier {
     return result.getImage();
   }
   
-  PImage changeRedChannel(Image img, int val){
-     redVal = val;
-     toggleFilter(Filter.REDCHANNEL);
+  Image changeRedChannel(Image img, int val){
      for(int x = 0; x < img.getWidth(); x++){
             for(int y = 0; y <  img.getHeight(); y++){
               color original_Color = img.getPixelXY(x,y);
@@ -82,11 +87,13 @@ class FilterApplier {
               float red = red(original_Color);
               float green = green(original_Color);
               float blue = blue(original_Color);
-              new_color = color(val, green, blue);
+              int added_red = int(red) + val;
+              int new_val = constrain(added_red, 0, 255);
+              new_color = color(new_val, green, blue);
               img.setPixelXY(x,y, new_color);
             }
      }
-     return img.getImage();
+     return img;
     
   }
  
@@ -147,6 +154,7 @@ class FilterApplier {
   
   Image applyConvolution(Image img, Matrix matrix){
     Image result = new Image(img.getWidth(),img.getHeight());
+    println("Am I a float: " + matrix.getValue(0,0));
     for(int x = 0; x < img.getWidth(); x++){
       for(int y = 0; y < img.getHeight(); y++){
         color conv_color = convoluteAt(img, x, y, matrix);

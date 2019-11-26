@@ -34,8 +34,8 @@ void createRedSlider(){
   cp5.addSlider("Red Slider")
      .setPosition(620,200)
      .setSize(100,20)
-     .setRange(0,255)
-     .setValue(128)
+     .setRange(-255,255)
+     .setValue(0)
      ;
 }
 
