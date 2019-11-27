@@ -6,7 +6,10 @@ class Image{
   int img_height;
   FilterApplier filter_applier = new FilterApplier();
   Filter next_filter = Filter.NONE;
-  int red_channel = 0;
+  int[] channels = {0,0,0,1};
+
+
+  
   
    //loads an Image from a file
   Image(String file){
@@ -41,10 +44,6 @@ class Image{
     this.img_height = new_height;
     this.img.resize(img_width, img_height);
     this.original_img.resize(img_width, img_height);
-  }
-  
-  void changeChannel(int val){
-    setRedChannel(val);
   }
   
   
@@ -85,12 +84,38 @@ class Image{
     return img_height;
   }
   
-  void setRedChannel(int val){
-    this.red_channel = val;
+  void changeChannel(Filter f, int val){
+    switch(f){
+      case REDCHANNEL:
+              channels[0] = val;
+              break;
+      case GREENCHANNEL:
+              channels[1] = val;
+              break;
+      case BLUECHANNEL:
+              channels[2] = val;
+              break;
+      case ALPHACHANNEL:
+              channels[3] = val;
+              break;
+    }
+    
   }
   
   int getRedChannel(){
-     return this.red_channel;
+     return this.channels[0];
+  }
+  
+  int getGreenChannel(){
+     return this.channels[1];
+  }
+  
+  int getBlueChannel(){
+     return this.channels[2];
+  }
+  
+  int getAlphaChannel(){
+     return this.channels[3];
   }
   
 }

@@ -41,7 +41,7 @@ class Matrix {
     return m_width;
   }
   
-  Matrix transposed(float[][] matrix){
+  Matrix transposed(){
     int t_width = m_height;
     int t_height = m_width;
     Matrix t_matrix = new Matrix(matrix, t_height, t_width);
