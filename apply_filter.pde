@@ -4,10 +4,11 @@ class FilterApplier {
     
   ArrayList<Filter> applied_filters = new ArrayList<Filter>();
   
+  int blur_strength = 2;
   int greyscale_type = 0; // 0 => average, 1 => lightness, 2 => luminosity
-  float[][] conv_matrix = { { -1 , -1 , -1},
-                            {  0 ,  3 ,  0},
-                            {  0 ,  0 ,  0} };
+  float[][] conv_matrix = { { -1 ,  0 , -1 },
+                            {  0 ,  4 ,  0 },
+                            { -1 ,  0 , -1 } };
   
   void setConvolutionMatrix(Convolution  conv){
     conv_matrix = conv.getMatrix();
@@ -51,12 +52,10 @@ class FilterApplier {
           result = applyNegative(result);
           break;
         case GAUSS:
-          float[][] gauss_matrix = Convolution.GAUSS.getMatrix();
-          result = applyConvolution(result, new Matrix(gauss_matrix, gauss_matrix.length));
+          result = applyGaussBlur(result, blur_strength);
           break;
         case BOX_BLUR:
-          float[][] blur_matrix = Convolution.BOX_BLUR.getMatrix();
-          result = applyConvolution(result, new Matrix(blur_matrix, blur_matrix.length));
+          result = applyBoxBlur(result, blur_strength);
           break;
         case SHARP:
           float[][] sharp_matrix = Convolution.SHARP.getMatrix();
@@ -152,9 +151,37 @@ class FilterApplier {
     return result;
   }
   
+  Image applyBoxBlur(Image img, int size){
+    
+    float[][] mat = new float[2*size+1][2*size+1]; 
+    for (int i = 0; i < 2 * size + 1; i++){
+      for (int j = 0; j < 2 * size + 1; j++){
+        //mat[i][j] = factor*(1/PI) * exp( -factor * (pow(i-size,2) + pow(j-size,2)) );
+        mat[i][j] = 1/pow(2*size+1,2);
+      }
+    }
+    Matrix blur_matrix = new Matrix(mat, 2*size+1);
+    return applyConvolution(img, blur_matrix);
+  }
+  
+  Image applyGaussBlur(Image img, int size){
+    
+    float sigma = pow(size,2)/3; //set sigma so that all values are within 3-sigma-environment --> 99,7% of original brightness achieved
+    float total = 0;
+    float[][] mat = new float[2*size+1][2*size+1];
+    for (int i = 0; i < 2 * size + 1; i++){
+      for (int j = 0; j < 2 * size + 1; j++){
+        float sqr_dist = pow(i-size,2) + pow(j-size,2);
+        total += mat[i][j] = exp( -sqr_dist / (2 * pow(sigma,2) )) / (2 * pow(sigma,2) * PI);
+      }
+    }
+    mat[size][size] += 1 - total; //add missing brightness to main pixel (ideally 0.3% but rounding makes it worse)
+    Matrix gauss_matrix = new Matrix(mat, 2*size+1);
+    return applyConvolution(img, gauss_matrix);
+  }
+  
   Image applyConvolution(Image img, Matrix matrix){
     Image result = new Image(img.getWidth(),img.getHeight());
-    println("Am I a float: " + matrix.getValue(0,0));
     for(int x = 0; x < img.getWidth(); x++){
       for(int y = 0; y < img.getHeight(); y++){
         color conv_color = convoluteAt(img, x, y, matrix);
@@ -173,7 +200,7 @@ class FilterApplier {
     float pixel_val_B = 0;
       
     //use transposed version of the original matrix
-    Matrix conv_matrix = matrix;//.transposed(matrix.getMatrix());
+    Matrix trans_matrix = matrix;//.transposed(matrix.getMatrix());
   
     for(int i = 0; i < matrix.getHeight(); i++){
       for(int j = 0; j < matrix.getWidth(); j++){
@@ -187,9 +214,9 @@ class FilterApplier {
          surpix_y = constrain(surpix_y, 0, img.getHeight());
          
          //perform convolution
-         pixel_val_R += red(img.getPixelXY(surpix_x, surpix_y)) * conv_matrix.getValue(i,j);
-         pixel_val_G += green(img.getPixelXY(surpix_x, surpix_y)) * conv_matrix.getValue(i,j);
-         pixel_val_B += blue(img.getPixelXY(surpix_x, surpix_y)) * conv_matrix.getValue(i,j);
+         pixel_val_R += red(img.getPixelXY(surpix_x, surpix_y)) * trans_matrix.getValue(i,j);
+         pixel_val_G += green(img.getPixelXY(surpix_x, surpix_y)) * trans_matrix.getValue(i,j);
+         pixel_val_B += blue(img.getPixelXY(surpix_x, surpix_y)) * trans_matrix.getValue(i,j);
       }
     }
       

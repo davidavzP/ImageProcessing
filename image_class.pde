@@ -29,11 +29,12 @@ class Image{
     next_filter = filter;
     if (filter != Filter.NONE) filter_applier.toggleFilter(filter);
     else filter_applier.removeAll();
+    img.copy(original_img, 0, 0, img_width, img_height, 0, 0, img_width, img_height);
+   img = filter_applier.apply(this);
   }
   
   void filterChanged(){
-   img.copy(original_img, 0, 0, img_width, img_height, 0, 0, img_width, img_height);
-   img = filter_applier.apply(this);
+   
   }
   
   void resize_img(int new_width, int new_height){

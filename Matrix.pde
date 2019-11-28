@@ -3,6 +3,29 @@ class Matrix {
   int m_height;
   int m_width;
   
+  Matrix(int square){
+    float[][] values = new float[square][square];
+    for (int i = 0; i < square; i++){
+      for (int j = 0; j < square; j++){
+        values[i][j] = 0;
+      }
+    }
+    this.matrix = values;
+    this.m_width = this.m_height = square;
+  }
+  
+  Matrix(int h, int w){
+    float[][] values = new float[h][w];
+    for (int i = 0; i < h; i++){
+      for (int j = 0; j < w; j++){
+        values[i][j] = 0;
+      }
+    }
+    this.matrix = values;
+    this.m_width = w;
+    this.m_height = h;
+  }
+  
   Matrix(float[][] matrix, int h, int w){
     this.matrix = matrix;
     this.m_width = w;
@@ -41,9 +64,9 @@ class Matrix {
     return m_width;
   }
   
-  Matrix transposed(float[][] matrix){
-    int t_width = m_height;
-    int t_height = m_width;
+  Matrix transposed(Matrix matrix){
+    int t_width = matrix.getHeight();
+    int t_height = matrix.getWidth();
     Matrix t_matrix = new Matrix(matrix, t_height, t_width);
     for(int j = 0; j < m_width; j++){
       t_matrix.setLine(j,new float[m_height]);
