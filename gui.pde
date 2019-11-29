@@ -18,6 +18,7 @@ void customize(DropdownList ddl) {
   ddl.setWidth(160);
   ddl.setItemHeight(25);
   ddl.setBarHeight(25);
+  ddl.setHeight(150);
   for (int i=0; i < ddarray1.getSize(); i++) {
     ddl.addItem("Filter "+ddarray1.display(i), i);
   }
@@ -28,13 +29,44 @@ void customize(DropdownList ddl) {
 
 void createSliders(){
   createRedSlider();
+  createGreenSlider();
+  createBlueSlider();
+  //Doesn't work yet, might need a background
+  //createAlphaSlider();
 }
 
 void createRedSlider(){
   cp5.addSlider("Red Slider")
-     .setPosition(620,200)
+     .setPosition(620,400)
      .setSize(100,20)
      .setRange(-255,255)
+     .setValue(0)
+     ;
+}
+
+void createGreenSlider(){
+  cp5.addSlider("Green Slider")
+     .setPosition(620,450)
+     .setSize(100,20)
+     .setRange(-255,255)
+     .setValue(0)
+     ;
+}
+
+void createBlueSlider(){
+  cp5.addSlider("Blue Slider")
+     .setPosition(620,500)
+     .setSize(100,20)
+     .setRange(-255,255)
+     .setValue(0)
+     ;
+}
+
+void createAlphaSlider(){
+  cp5.addSlider("Alpha Slider")
+     .setPosition(620,550)
+     .setSize(100,20)
+     .setRange(0,1)
      .setValue(0)
      ;
 }
@@ -54,12 +86,21 @@ void controlEvent(ControlEvent theEvent) {
         println(" Filter: " + filter.asString());
         img_gui.newFilter(filter);
       } else if(theEvent.isFrom(cp5.getController("Red Slider"))){
-        println("this event was triggered by Controller Red Slider");
-         println("event from controller : "+theEvent.getController().getValue()+" from "+theEvent.getController());
-          int clicked = int(theEvent.getController().getValue());
-          img_gui.changeChannel(clicked);
+           getChannelValue(theEvent, Filter.REDCHANNEL);
+      }else if(theEvent.isFrom(cp5.getController("Green Slider"))){
+          getChannelValue(theEvent, Filter.GREENCHANNEL);
+      }else if(theEvent.isFrom(cp5.getController("Blue Slider"))){
+          getChannelValue(theEvent, Filter.BLUECHANNEL);
+      }else if(theEvent.isFrom(cp5.getController("Alpha Slider"))){
+          getChannelValue(theEvent, Filter.ALPHACHANNEL);
       }
     
     
   }
 }
+
+void getChannelValue(ControlEvent theEvent, Filter f){
+         println("event from controller : "+theEvent.getController().getValue()+" from "+theEvent.getController());
+         int clicked = int(theEvent.getController().getValue());
+         img_gui.changeChannel(f, clicked);
+  }

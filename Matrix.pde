@@ -67,11 +67,11 @@ class Matrix {
   Matrix transposed(Matrix matrix){
     int t_width = matrix.getHeight();
     int t_height = matrix.getWidth();
-    Matrix t_matrix = new Matrix(matrix, t_height, t_width);
-    for(int j = 0; j < m_width; j++){
-      t_matrix.setLine(j,new float[m_height]);
-      for(int i = 0; i < m_height; i++){
-        t_matrix.setValue(i, j, matrix[i][j]);
+    Matrix t_matrix = new Matrix(t_height, t_width);
+    for(int i = 0; i < t_height; i++){
+      t_matrix.setLine(i,new float[t_width]);
+      for(int j = 0; j < t_width; j++){
+        t_matrix.setValue(i, j, matrix.getValue(j,i));
       }
     }
     return t_matrix; //<>//

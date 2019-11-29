@@ -47,6 +47,24 @@ enum Filter{
             return REDCHANNEL.toString();
         }
   },
+  GREENCHANNEL{
+    @Override
+        public String asString() {
+            return BLUECHANNEL.toString();
+        }
+  },
+  BLUECHANNEL{
+    @Override
+        public String asString() {
+            return BLUECHANNEL.toString();
+        }
+  },
+  ALPHACHANNEL{
+    @Override
+        public String asString() {
+            return BLUECHANNEL.toString();
+        }
+  },
   NONE{
     @Override
         public String asString() {

@@ -38,7 +38,14 @@ class FilterApplier {
   }
   
   private FilterApplier(){
+     addFilters();
+  }
+  
+  void addFilters(){
      addFilter(Filter.REDCHANNEL);
+     addFilter(Filter.GREENCHANNEL);
+     addFilter(Filter.BLUECHANNEL);
+     addFilter(Filter.ALPHACHANNEL);
   }
   
   PImage apply(Image image){
@@ -71,6 +78,12 @@ class FilterApplier {
         case REDCHANNEL:
           result = changeRedChannel(result, result.getRedChannel());
           break;
+        case GREENCHANNEL:
+          result = changeGreenChannel(result, result.getGreenChannel());
+        case BLUECHANNEL:
+          result = changeBlueChannel(result, result.getBlueChannel());
+        case ALPHACHANNEL:
+          result = changeAlphaChannel(result, result.getAlphaChannel());
         default:
           break;
       }
@@ -89,6 +102,62 @@ class FilterApplier {
               int added_red = int(red) + val;
               int new_val = constrain(added_red, 0, 255);
               new_color = color(new_val, green, blue);
+              img.setPixelXY(x,y, new_color);
+            }
+     }
+     return img;
+    
+  }
+  
+  Image changeGreenChannel(Image img, int val){
+     for(int x = 0; x < img.getWidth(); x++){
+            for(int y = 0; y <  img.getHeight(); y++){
+              color original_Color = img.getPixelXY(x,y);
+              color new_color;
+              float red = red(original_Color);
+              float green = green(original_Color);
+              float blue = blue(original_Color);
+              int added_green = int(green) + val;
+              int new_val = constrain(added_green, 0, 255);
+              new_color = color(red, new_val, blue);
+              img.setPixelXY(x,y, new_color);
+            }
+     }
+     return img;
+    
+  }
+  
+  Image changeBlueChannel(Image img, int val){
+     for(int x = 0; x < img.getWidth(); x++){
+            for(int y = 0; y <  img.getHeight(); y++){
+              color original_Color = img.getPixelXY(x,y);
+              color new_color;
+              float red = red(original_Color);
+              float green = green(original_Color);
+              float blue = blue(original_Color);
+              //this makes something pretty int added_blue = int(green) + val;
+              int added_blue = int(blue) + val;
+              int new_val = constrain(added_blue, 0, 255);
+              new_color = color(red, green, new_val);
+              img.setPixelXY(x,y, new_color);
+            }
+     }
+     return img;
+    
+  }
+  
+  Image changeAlphaChannel(Image img, int val){
+     for(int x = 0; x < img.getWidth(); x++){
+            for(int y = 0; y <  img.getHeight(); y++){
+              color original_Color = img.getPixelXY(x,y);
+              color new_color;
+              float red = red(original_Color);
+              float green = green(original_Color);
+              float blue = blue(original_Color);
+              float alpha = alpha(original_Color);
+              int added_alpha = int(alpha) - val;
+              int new_val = constrain(added_alpha, 1, 0);
+              new_color = color(red, green, blue, new_val);
               img.setPixelXY(x,y, new_color);
             }
      }
@@ -200,7 +269,7 @@ class FilterApplier {
     float pixel_val_B = 0;
       
     //use transposed version of the original matrix
-    Matrix trans_matrix = matrix;//.transposed(matrix.getMatrix());
+    Matrix trans_matrix = matrix.transposed(matrix);
   
     for(int i = 0; i < matrix.getHeight(); i++){
       for(int j = 0; j < matrix.getWidth(); j++){
