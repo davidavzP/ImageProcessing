@@ -5,8 +5,8 @@ class Image{
   int img_width;
   int img_height;
   FilterApplier filter_applier = new FilterApplier();
-  Filter next_filter = Filter.NONE;
   int[] channels = {0,0,0,1};
+  int refreshrate = 60; //every x frames filters are reapplied
 
 
   
@@ -29,15 +29,18 @@ class Image{
   
   
   void newFilter(Filter filter){
-    next_filter = filter;
     if (filter != Filter.NONE) filter_applier.toggleFilter(filter);
     else filter_applier.removeAll();
-    img.copy(original_img, 0, 0, img_width, img_height, 0, 0, img_width, img_height);
-   img = filter_applier.apply(this);
+    applyFilters(false);
   }
   
   void filterChanged(){
-   
+    if (frameCount % refreshrate == 0) applyFilters(false); 
+  }
+  
+  void applyFilters(boolean quick_only){
+    img.copy(original_img, 0, 0, img_width, img_height, 0, 0, img_width, img_height);
+    img = filter_applier.apply(this, quick_only);
   }
   
   void resize_img(int new_width, int new_height){
@@ -100,7 +103,7 @@ class Image{
               channels[3] = val;
               break;
     }
-    
+    applyFilters(true);
   }
   
   int getRedChannel(){

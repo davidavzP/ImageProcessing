@@ -29,6 +29,9 @@ class FilterApplier {
   void removeAll(){
     applied_filters.clear();
     addFilter(Filter.REDCHANNEL);
+    addFilter(Filter.GREENCHANNEL);
+    addFilter(Filter.BLUECHANNEL);
+    addFilter(Filter.ALPHACHANNEL);
   }
   
   void toggleFilter(Filter filter)
@@ -48,7 +51,7 @@ class FilterApplier {
      addFilter(Filter.ALPHACHANNEL);
   }
   
-  PImage apply(Image image){
+  PImage apply(Image image, boolean quick_only){
     Image result = image;
     for(Filter filter:applied_filters){
       switch(filter){
@@ -58,6 +61,19 @@ class FilterApplier {
         case NEGATIVE:
           result = applyNegative(result);
           break;
+        case REDCHANNEL:
+          result = changeRedChannel(result, result.getRedChannel());
+          break;
+        case GREENCHANNEL:
+          result = changeGreenChannel(result, result.getGreenChannel());
+        case BLUECHANNEL:
+          result = changeBlueChannel(result, result.getBlueChannel());
+        case ALPHACHANNEL:
+          result = changeAlphaChannel(result, result.getAlphaChannel());
+        default:
+          break;
+      }
+      if (!quick_only) switch(filter){
         case GAUSS:
           result = applyGaussBlur(result, blur_strength);
           break;
@@ -75,15 +91,6 @@ class FilterApplier {
         case CONVOLUTION:
           result = applyConvolution(result, new Matrix(conv_matrix, conv_matrix.length));
           break;
-        case REDCHANNEL:
-          result = changeRedChannel(result, result.getRedChannel());
-          break;
-        case GREENCHANNEL:
-          result = changeGreenChannel(result, result.getGreenChannel());
-        case BLUECHANNEL:
-          result = changeBlueChannel(result, result.getBlueChannel());
-        case ALPHACHANNEL:
-          result = changeAlphaChannel(result, result.getAlphaChannel());
         default:
           break;
       }
@@ -235,7 +242,7 @@ class FilterApplier {
   
   Image applyGaussBlur(Image img, int size){
     
-    float sigma = pow(size,2)/3; //set sigma so that all values are within 3-sigma-environment --> 99,7% of original brightness achieved
+    float sigma = sqrt(2)*size/3; //set sigma so that all values are within 3-sigma-environment --> 99,7% of original brightness achieved
     float total = 0;
     float[][] mat = new float[2*size+1][2*size+1];
     for (int i = 0; i < 2 * size + 1; i++){
