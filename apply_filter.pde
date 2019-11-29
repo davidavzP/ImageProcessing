@@ -5,6 +5,7 @@ class FilterApplier {
   ArrayList<Filter> applied_filters = new ArrayList<Filter>();
   
   int blur_strength = 2;
+  color alpha_color = color(255,0,0);
   int greyscale_type = 0; // 0 => average, 1 => lightness, 2 => luminosity
   float[][] conv_matrix = { { -1 ,  0 , -1 },
                             {  0 ,  4 ,  0 },
@@ -66,10 +67,16 @@ class FilterApplier {
           break;
         case GREENCHANNEL:
           result = changeGreenChannel(result, result.getGreenChannel());
+          break;
         case BLUECHANNEL:
           result = changeBlueChannel(result, result.getBlueChannel());
+          break;
         case ALPHACHANNEL:
           result = changeAlphaChannel(result, result.getAlphaChannel());
+          break;
+        case COLORTOALPHA:
+          result = applyColorToAlpha(result, alpha_color);
+          break;
         default:
           break;
       }
@@ -196,6 +203,23 @@ class FilterApplier {
                   new_color = color(int(red + green + blue)/3);
                   break;
               }
+              result.setPixelXY(x,y,new_color);
+            }
+    }
+    return result;
+  }
+  
+  Image applyColorToAlpha(Image img, color col){
+    Image result = img;
+    for(int x = 0; x < img.getWidth(); x++){
+            for(int y = 0; y < img.getHeight(); y++){
+              //do image processing
+              color prev_col = img.getPixelXY(x,y);
+              float red_difference = abs(red(col)-red(prev_col));
+              float green_difference = abs(green(col)-green(prev_col));
+              float blue_difference = abs(blue(col)-blue(prev_col));
+              int difference = constrain(round(red_difference + green_difference + blue_difference), 0, 255);
+              color new_color = color(red(prev_col), green(prev_col), blue(prev_col), difference);
               result.setPixelXY(x,y,new_color);
             }
     }

@@ -50,7 +50,7 @@ enum Filter{
   GREENCHANNEL{
     @Override
         public String asString() {
-            return BLUECHANNEL.toString();
+            return GREENCHANNEL.toString();
         }
   },
   BLUECHANNEL{
@@ -62,7 +62,13 @@ enum Filter{
   ALPHACHANNEL{
     @Override
         public String asString() {
-            return BLUECHANNEL.toString();
+            return ALPHACHANNEL.toString();
+        }
+  },
+  COLORTOALPHA{
+    @Override
+        public String asString() {
+            return COLORTOALPHA.toString();
         }
   },
   NONE{

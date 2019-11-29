@@ -74,7 +74,7 @@ class Matrix {
         t_matrix.setValue(i, j, matrix.getValue(j,i));
       }
     }
-    return t_matrix; //<>//
+    return t_matrix; //<>// //<>//
   }
   
   
