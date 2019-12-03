@@ -21,7 +21,7 @@ class Histogram extends PApplet {
   }
   
   public void settings() {
-    size(500, 1000, P3D);
+    size(500, 400, P3D);
     smooth();
   }
   
@@ -35,7 +35,6 @@ class Histogram extends PApplet {
     background(0);
     
     for (int i = 0; i < width; i++) {
-      
       stroke(255, 0, 0, 110);
       line(i, height, i, red_h[i]);
       stroke(255, 0, 0);
@@ -51,9 +50,7 @@ class Histogram extends PApplet {
       stroke(0, 0, 255);
       if (i > 0) line(i-1, blue_h[i-1], i, blue_h[i]);
     }
-
     
-    println("draw\n"+random(0,5));
   }
   
   void update(PImage image) {
@@ -86,6 +83,7 @@ class Histogram extends PApplet {
       int which = int(map(i, 0, width, 0, 255));
       
       int max_h = max( max(reds), max(greens), max(blues) );
+      max_h = constrain(max_h, 0, 45000);// 1/8 of maximum value (600^2)
 
       // Convert the histogram value to a location between 
       // the bottom and the top of the picture
