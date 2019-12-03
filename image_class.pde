@@ -7,8 +7,6 @@ class Image{
   FilterApplier filter_applier = new FilterApplier();
   int[] channels = {0,0,0,1};
   int refreshrate = 60; //every x frames filters are reapplied
-
-
   
   
    //loads an Image from a file
