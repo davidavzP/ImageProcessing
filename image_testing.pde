@@ -1,11 +1,11 @@
 import controlP5.*;
 
 Image img_gui;
-Histogram histogram;
 ControlP5 cp5;
 DropdownList d1;
 DropDownArray ddarray1;
 PShape square;  
+Histogram histogram;
 
 void settings() {
   //image size 1024x1024
@@ -26,7 +26,6 @@ void setup(){
   
   histogram = new Histogram(img_gui.getImage());
 }
-
 
 //this draw() function is a loop that gets called over and over again
 void draw(){
