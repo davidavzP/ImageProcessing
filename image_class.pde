@@ -1,5 +1,7 @@
 class Image{
   
+  ImageList img_hist = new ImageList();
+  
   PImage img;
   PImage original_img;
   int img_width;
@@ -17,6 +19,9 @@ class Image{
     original_img = loadImage(file);
     this.img_width = img.width;
     this.img_height = img.height;
+    
+    FPImage fpimg = new FPImage(img, Filter.NONE);
+    img_hist.push(fpimg);
   }
   
   //creates an Emtpy Image
