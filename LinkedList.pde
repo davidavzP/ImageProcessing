@@ -34,12 +34,19 @@ class ImageList{
     return list.peekLast().getImg();
   }
   
-  Filter peekCurrFilter(){
-    return list.peekLast().getFilter(); 
-  }
-  
   PImage peekOrgImg(){
     return list.peek().getImg();
+  }
+  
+  void removeFilters(){
+     FPImage org = list.getFirst();
+     list.clear();
+     push(org);
+     
+  }
+  
+  int listSize(){
+     return list.size(); 
   }
   
   

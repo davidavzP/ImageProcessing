@@ -52,15 +52,31 @@ class FilterApplier {
      addFilter(Filter.ALPHACHANNEL);
   }
   
+  
+  PImage applyFilter(PImage image, Filter filter){
+    switch(filter){
+      case GREYSCALE:
+          image = applyGreyscale(image);
+          break;
+       case NEGATIVE:
+          image = applyNegative(image);
+          break;
+    }
+    return image; 
+  }
+  
+  
+  
+  
   PImage apply(Image image, boolean quick_only){
     Image result = image;
     for(Filter filter:applied_filters){
       switch(filter){
         case GREYSCALE:
-          result = applyGreyscale(result);
+          //result = applyGreyscale(result);
           break;
         case NEGATIVE:
-          result = applyNegative(result);
+          //result = applyNegative(result);
           break;
         case REDCHANNEL:
           result = changeRedChannel(result, result.getRedChannel());
@@ -179,12 +195,11 @@ class FilterApplier {
     
   }
  
-  Image applyGreyscale(Image img){
-    Image result = new Image(img.getWidth(),img.getHeight());
-    for(int x = 0; x < img.getWidth(); x++){
-            for(int y = 0; y < img.getHeight(); y++){
+  PImage applyGreyscale(PImage img){
+    for(int x = 0; x < img.width; x++){
+            for(int y = 0; y < img.height; y++){
               //do image processing
-              color original_Color = img.getPixelXY(x,y);
+              color original_Color = img.get(x,y);
               color new_color;
               float red = red(original_Color);
               float green = green(original_Color);
@@ -203,10 +218,10 @@ class FilterApplier {
                   new_color = color(int(red + green + blue)/3);
                   break;
               }
-              result.setPixelXY(x,y,new_color);
+              img.set(x,y,new_color);
             }
     }
-    return result;
+    return img;
   }
   
   Image applyColorToAlpha(Image img, color col){
@@ -226,17 +241,17 @@ class FilterApplier {
     return result;
   }
   
-  Image applyNegative(Image img){
-    Image result = new Image(img.getWidth(),img.getHeight());
-    for(int x = 0; x < img.getWidth(); x++){
-            for(int y = 0; y < img.getHeight(); y++){
+  PImage applyNegative(PImage img){
+ 
+    for(int x = 0; x < img.width; x++){
+            for(int y = 0; y < img.height; y++){
               //do image processing
-              color original_Color = img.getPixelXY(x,y);
+              color original_Color = img.get(x,y);
               color new_color = color(255 - red(original_Color), 255 - green(original_Color), 255 - blue(original_Color));
-              result.setPixelXY(x,y,new_color);
+              img.set(x,y,new_color);
             }
     }
-    return result;
+    return img;
   }
   
   Image applyEdgeDetection(Image img, Matrix matrix){

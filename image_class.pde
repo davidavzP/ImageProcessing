@@ -34,18 +34,42 @@ class Image{
   
   
   void newFilter(Filter filter){
-    if (filter != Filter.NONE) filter_applier.toggleFilter(filter);
-    else filter_applier.removeAll();
-    applyFilters(false);
+    //apply filter to last thing in the linked then append new img then apply any red blue or green values
+    if (filter != Filter.NONE){
+      PImage curr_img = img_hist.peekCurrImg().copy();
+      color c = curr_img.get(0,0);
+       float r = red(c);
+       float g = green(c);
+       float b = blue(c);
+       print(r + " " + g + " " + b);
+      PImage filtered_img = filter_applier.applyFilter(curr_img, filter); 
+      
+      FPImage fpimg = new FPImage(filtered_img, filter);
+      img_hist.push(fpimg);
+    }
+    else {
+      img_hist.removeFilters(); 
+      
+    }
+  
+    
+    //if (filter != Filter.NONE) filter_applier.toggleFilter(filter);
+    //else filter_applier.removeAll();
+    //applyFilters(false);
+  }
+  
+  ImageList getList(){
+    return this.img_hist;
   }
   
   void filterChanged(){
-    if (frameCount % refreshrate == 0) applyFilters(false); 
+    //if (frameCount % refreshrate == 0) applyFilters(false); 
+    
   }
   
   void applyFilters(boolean quick_only){
-    img.copy(original_img, 0, 0, img_width, img_height, 0, 0, img_width, img_height);
-    img = filter_applier.apply(this, quick_only);
+    //img.copy(original_img, 0, 0, img_width, img_height, 0, 0, img_width, img_height);
+    //img = filter_applier.apply(this, quick_only);
   }
   
   void resize_img(int new_width, int new_height){
@@ -59,6 +83,7 @@ class Image{
   
   void setPixel(int pixel_loc, color c){
      img.pixels[pixel_loc] = c;
+     
   }
   
   void setPixelXY(int x, int y, color c){
@@ -74,15 +99,18 @@ class Image{
   }
   
   PImage getImage(){
-    return this.img;
+    //return this.img;
+    return img_hist.peekCurrImg();
   }
   
   void image_updatePixels(){
-    this.img.updatePixels();
+    //this.img.updatePixels();
+    img_hist.peekCurrImg().updatePixels();
   }
   
   void image_loadPixels(){
-    this.img.loadPixels();
+    //this.img.loadPixels();
+    img_hist.peekCurrImg().loadPixels();
   }
   
   int getWidth(){
