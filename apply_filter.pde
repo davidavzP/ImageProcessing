@@ -171,6 +171,7 @@ class FilterApplier {
               float alpha = alpha(original_Color);
               int added_alpha = int(alpha) - val;
               int new_val = constrain(added_alpha, 1, 0);
+              new_val = int(map(new_val, 1, 0, 255, 0));
               new_color = color(red, green, blue, new_val);
               img.setPixelXY(x,y, new_color);
             }
