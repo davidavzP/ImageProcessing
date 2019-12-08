@@ -35,15 +35,12 @@ class Image{
   
   void newFilter(Filter filter){
     //apply filter to last thing in the linked then append new img then apply any red blue or green values
+    //need to check the Linked list to see if the filter already exists to not have overlaps...maybe 
+    //add some order to ensure that negative is the last thing applied 
+    //then make logic for applying the rbg values on top
     if (filter != Filter.NONE){
       PImage curr_img = img_hist.peekCurrImg().copy();
-      color c = curr_img.get(0,0);
-       float r = red(c);
-       float g = green(c);
-       float b = blue(c);
-       print(r + " " + g + " " + b);
       PImage filtered_img = filter_applier.applyFilter(curr_img, filter); 
-      
       FPImage fpimg = new FPImage(filtered_img, filter);
       img_hist.push(fpimg);
     }
@@ -51,25 +48,6 @@ class Image{
       img_hist.removeFilters(); 
       
     }
-  
-    
-    //if (filter != Filter.NONE) filter_applier.toggleFilter(filter);
-    //else filter_applier.removeAll();
-    //applyFilters(false);
-  }
-  
-  ImageList getList(){
-    return this.img_hist;
-  }
-  
-  void filterChanged(){
-    //if (frameCount % refreshrate == 0) applyFilters(false); 
-    
-  }
-  
-  void applyFilters(boolean quick_only){
-    //img.copy(original_img, 0, 0, img_width, img_height, 0, 0, img_width, img_height);
-    //img = filter_applier.apply(this, quick_only);
   }
   
   void resize_img(int new_width, int new_height){
@@ -77,13 +55,6 @@ class Image{
     this.img_height = new_height;
     this.img.resize(img_width, img_height);
     this.original_img.resize(img_width, img_height);
-  }
-  
-  
-  
-  void setPixel(int pixel_loc, color c){
-     img.pixels[pixel_loc] = c;
-     
   }
   
   void setPixelXY(int x, int y, color c){
@@ -104,12 +75,10 @@ class Image{
   }
   
   void image_updatePixels(){
-    //this.img.updatePixels();
     img_hist.peekCurrImg().updatePixels();
   }
   
   void image_loadPixels(){
-    //this.img.loadPixels();
     img_hist.peekCurrImg().loadPixels();
   }
   
@@ -121,6 +90,7 @@ class Image{
     return img_height;
   }
   
+  //this will actually change the last img value to be the new rgb value
   void changeChannel(Filter f, int val){
     switch(f){
       case REDCHANNEL:
@@ -136,7 +106,6 @@ class Image{
               channels[3] = val;
               break;
     }
-    applyFilters(true);
   }
   
   int getRedChannel(){

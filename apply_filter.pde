@@ -1,8 +1,6 @@
 import java.util.*;
 
 class FilterApplier {
-    
-  ArrayList<Filter> applied_filters = new ArrayList<Filter>();
   
   int blur_strength = 2;
   color alpha_color = color(255,0,0);
@@ -14,45 +12,7 @@ class FilterApplier {
   void setConvolutionMatrix(Convolution  conv){
     conv_matrix = conv.getMatrix();
   }
-  
-  boolean isApplied(Filter filter){
-    return applied_filters.contains(filter);
-  }
-  
-  void addFilter(Filter filter){
-    applied_filters.add(filter);
-  }
-  
-  void removeFilter(Filter filter){
-    applied_filters.remove(filter);
-  }
-  
-  void removeAll(){
-    applied_filters.clear();
-    addFilter(Filter.REDCHANNEL);
-    addFilter(Filter.GREENCHANNEL);
-    addFilter(Filter.BLUECHANNEL);
-    addFilter(Filter.ALPHACHANNEL);
-  }
-  
-  void toggleFilter(Filter filter)
-  {
-    if (!isApplied(filter)) applied_filters.add(filter);
-    else applied_filters.remove(filter);
-  }
-  
-  private FilterApplier(){
-     addFilters();
-  }
-  
-  void addFilters(){
-     addFilter(Filter.REDCHANNEL);
-     addFilter(Filter.GREENCHANNEL);
-     addFilter(Filter.BLUECHANNEL);
-     addFilter(Filter.ALPHACHANNEL);
-  }
-  
-  
+ 
   PImage applyFilter(PImage image, Filter filter){
     switch(filter){
       case GREYSCALE:
@@ -61,64 +21,25 @@ class FilterApplier {
        case NEGATIVE:
           image = applyNegative(image);
           break;
-    }
-    return image; 
-  }
-  
-  
-  
-  
-  PImage apply(Image image, boolean quick_only){
-    Image result = image;
-    for(Filter filter:applied_filters){
-      switch(filter){
-        case GREYSCALE:
-          //result = applyGreyscale(result);
+       case GAUSS:
+          image = applyGaussBlur(image, blur_strength);
           break;
-        case NEGATIVE:
-          //result = applyNegative(result);
+       case BOX_BLUR:
+          image = applyBoxBlur(image, blur_strength);
           break;
-        case REDCHANNEL:
-          result = changeRedChannel(result, result.getRedChannel());
-          break;
-        case GREENCHANNEL:
-          result = changeGreenChannel(result, result.getGreenChannel());
-          break;
-        case BLUECHANNEL:
-          result = changeBlueChannel(result, result.getBlueChannel());
-          break;
-        case ALPHACHANNEL:
-          result = changeAlphaChannel(result, result.getAlphaChannel());
-          break;
-        case COLORTOALPHA:
-          result = applyColorToAlpha(result, alpha_color);
-          break;
-        default:
-          break;
-      }
-      if (!quick_only) switch(filter){
-        case GAUSS:
-          result = applyGaussBlur(result, blur_strength);
-          break;
-        case BOX_BLUR:
-          result = applyBoxBlur(result, blur_strength);
-          break;
-        case SHARP:
+       case SHARP:
           float[][] sharp_matrix = Convolution.SHARP.getMatrix();
-          result = applyConvolution(result, new Matrix(sharp_matrix, sharp_matrix.length));
+          image = applyConvolution(image, new Matrix(sharp_matrix, sharp_matrix.length));
           break;
         case EDGE:
           float[][] edge_matrix = Convolution.EDGE.getMatrix();
-          result = applyEdgeDetection(result, new Matrix(edge_matrix, edge_matrix.length));
+          image = applyEdgeDetection(image, new Matrix(edge_matrix, edge_matrix.length));
           break;
         case CONVOLUTION:
-          result = applyConvolution(result, new Matrix(conv_matrix, conv_matrix.length));
+          image = applyConvolution(image, new Matrix(conv_matrix, conv_matrix.length));
           break;
-        default:
-          break;
-      }
     }
-    return result.getImage();
+    return image; 
   }
   
   Image changeRedChannel(Image img, int val){
@@ -254,19 +175,18 @@ class FilterApplier {
     return img;
   }
   
-  Image applyEdgeDetection(Image img, Matrix matrix){
-    Image result = new Image(img.getWidth(),img.getHeight());
-    for(int x = 0; x < img.getWidth(); x++){
-      for(int y = 0; y < img.getHeight(); y++){
+  PImage applyEdgeDetection(PImage img, Matrix matrix){
+    for(int x = 0; x < img.width; x++){
+      for(int y = 0; y < img.height; y++){
         color conv_color = convoluteAt(img, x, y, matrix);
         float black_white = constrain(red(conv_color) + green(conv_color) + blue(conv_color), 0, 255);
-        result.setPixelXY(x, y, color(int(black_white)));
+        img.set(x, y, color(black_white));
       }
     }
-    return result;
+    return img;
   }
   
-  Image applyBoxBlur(Image img, int size){
+  PImage applyBoxBlur(PImage img, int size){
     
     float[][] mat = new float[2*size+1][2*size+1]; 
     for (int i = 0; i < 2 * size + 1; i++){
@@ -279,7 +199,7 @@ class FilterApplier {
     return applyConvolution(img, blur_matrix);
   }
   
-  Image applyGaussBlur(Image img, int size){
+  PImage applyGaussBlur(PImage img, int size){
     
     float sigma = sqrt(2)*size/3; //set sigma so that all values are within 3-sigma-environment --> 99,7% of original brightness achieved
     float total = 0;
@@ -295,19 +215,18 @@ class FilterApplier {
     return applyConvolution(img, gauss_matrix);
   }
   
-  Image applyConvolution(Image img, Matrix matrix){
-    Image result = new Image(img.getWidth(),img.getHeight());
-    for(int x = 0; x < img.getWidth(); x++){
-      for(int y = 0; y < img.getHeight(); y++){
+  PImage applyConvolution(PImage img, Matrix matrix){
+    for(int x = 0; x < img.width; x++){
+      for(int y = 0; y < img.height; y++){
         color conv_color = convoluteAt(img, x, y, matrix);
-        result.setPixelXY(x, y, conv_color);
+        img.set(x, y, conv_color);
       }
     }
-    return result;
+    return img;
   }
 
-  color convoluteAt(Image img, int x, int y, Matrix matrix){
-    if (matrix.getWidth() != matrix.getHeight()) return img.getPixelXY(x,y);
+  color convoluteAt(PImage img, int x, int y, Matrix matrix){
+    if (matrix.getWidth() != matrix.getHeight()) return img.get(x,y);
     
     int offset = matrix.getWidth()/2;
     float pixel_val_R = 0;
@@ -316,7 +235,7 @@ class FilterApplier {
       
     //use transposed version of the original matrix
     Matrix trans_matrix = matrix.transposed(matrix);
-  
+    
     for(int i = 0; i < matrix.getHeight(); i++){
       for(int j = 0; j < matrix.getWidth(); j++){
         
@@ -325,13 +244,14 @@ class FilterApplier {
          int surpix_y = y + i - offset;
          
          //ensures that if the surrounding pixels are outside the bounds are not calculated
-         surpix_x = constrain(surpix_x, 0, img.getWidth());
-         surpix_y = constrain(surpix_y, 0, img.getHeight());
+         surpix_x = constrain(surpix_x, 0, img.width);
+         surpix_y = constrain(surpix_y, 0, img.height);
          
          //perform convolution
-         pixel_val_R += red(img.getPixelXY(surpix_x, surpix_y)) * trans_matrix.getValue(i,j);
-         pixel_val_G += green(img.getPixelXY(surpix_x, surpix_y)) * trans_matrix.getValue(i,j);
-         pixel_val_B += blue(img.getPixelXY(surpix_x, surpix_y)) * trans_matrix.getValue(i,j);
+         color curr_color = img.get(surpix_x, surpix_y);
+         pixel_val_R += red(curr_color) * trans_matrix.getValue(i,j);
+         pixel_val_G += green(curr_color) * trans_matrix.getValue(i,j);
+         pixel_val_B += blue(curr_color) * trans_matrix.getValue(i,j);
       }
     }
       
