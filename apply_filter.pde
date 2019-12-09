@@ -42,6 +42,23 @@ class FilterApplier {
     return image; 
   }
   
+  PImage changeRGBChannels(PImage img, int[] vals){
+     for(int x = 0; x < img.width; x++){
+            for(int y = 0; y <  img.height; y++){
+              color original_Color = img.get(x,y);
+              float r = red(original_Color) + vals[0];
+              float g = green(original_Color) + vals[1];
+              float b = blue(original_Color) + vals[2];
+              r = constrain(r, 0, 255);
+              g = constrain(g, 0, 255);
+              b = constrain(b, 0, 255);
+              color new_color = color(r, g, b);
+              img.set(x,y, new_color);
+            }
+     }
+     return img;
+  }
+  
   PImage changeRedChannel(PImage img, int val){
      for(int x = 0; x < img.width; x++){
             for(int y = 0; y <  img.height; y++){
@@ -57,7 +74,6 @@ class FilterApplier {
             }
      }
      return img;
-    
   }
   
   PImage changeGreenChannel(PImage img, int val){
@@ -75,7 +91,6 @@ class FilterApplier {
             }
      }
      return img;
-    
   }
   
   PImage changeBlueChannel(PImage img, int val){
@@ -94,7 +109,6 @@ class FilterApplier {
             }
      }
      return img;
-    
   }
   
   PImage changeAlphaChannel(PImage img, int val){

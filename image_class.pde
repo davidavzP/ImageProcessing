@@ -6,6 +6,8 @@ class Image{
   PImage img;
   int img_width;
   int img_height;
+  
+  int[] channels = {0, 0, 0 , 1};
 
   
   // unused code
@@ -44,11 +46,15 @@ class Image{
       PImage filtered_img = filter_applier.applyFilter(curr_img, filter); 
       FPImage fpimg = new FPImage(filtered_img, filter);
       img_hist.push(fpimg);
+      changeChannel(Filter.NONE, 0);
     }
     else {
       img_hist.removeAllFilters(); 
+      PImage image = img_hist.peekCurrOrgImg().copy();
+      image = filter_applier.changeRGBChannels(image, channels);
+      //image = filter_applier.changeAlphaChannel(image, channels[3]);
+      img_hist.setChannel(image);
     }
-    changeChannel(Filter.NONE, 0);
   }
   
   void resize_img(int new_width, int new_height){
@@ -103,15 +109,17 @@ class Image{
     
     switch(f){
       case REDCHANNEL:
-              channel_img = filter_applier.changeRedChannel(prev, val);
+              channels[0] = val;
               break;
       case GREENCHANNEL:
-              channel_img = filter_applier.changeGreenChannel(prev, val);
+              channels[1] = val;
               break;
       case BLUECHANNEL:
-              channel_img = filter_applier.changeBlueChannel(prev, val);
+              channels[2] = val;
               break;
       case ALPHACHANNEL:
+      // to be fixed
+              channels[3] = val;
               channel_img = filter_applier.changeAlphaChannel(prev, val);
               break;
       default:
@@ -119,6 +127,7 @@ class Image{
               break;
     }
     
+    channel_img = filter_applier.changeRGBChannels(prev, channels);
     PImage filtered_img = filter_applier.applyFilter(channel_img, filter);
     img_hist.setChannel(filtered_img);
   }
