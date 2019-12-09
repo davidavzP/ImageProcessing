@@ -20,6 +20,7 @@ void setup(){
   //image size 1024x1024
   //size(800, 600, P3D);
   img_gui = new Image("sunflower.jpg");
+  //the resize causes problems with 
   img_gui.resize_img(600, 600);
 
   createImageFrame();

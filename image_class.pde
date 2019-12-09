@@ -19,10 +19,15 @@ class Image{
     original_img = loadImage(file);
     this.img_width = img.width;
     this.img_height = img.height;
+    addThisImg();
     
-    FPImage fpimg = new FPImage(img, Filter.NONE);
+  }
+  
+  private void addThisImg(){
+    FPImage fpimg = new FPImage(this.img, Filter.NONE);
     img_hist.push(fpimg);
   }
+  
   
   //creates an Emtpy Image
   Image(int img_width, int img_height){
@@ -39,22 +44,27 @@ class Image{
     //add some order to ensure that negative is the last thing applied 
     //then make logic for applying the rbg values on top
     if (filter != Filter.NONE){
-      PImage curr_img = img_hist.peekCurrImg().copy();
+      img_hist.clearLastImg();
+      PImage curr_img = img_hist.peekCurrOrgImg().copy();
       PImage filtered_img = filter_applier.applyFilter(curr_img, filter); 
       FPImage fpimg = new FPImage(filtered_img, filter);
+      
       img_hist.push(fpimg);
     }
     else {
-      img_hist.removeFilters(); 
+      img_hist.removeAllFilters(); 
       
     }
   }
   
   void resize_img(int new_width, int new_height){
+    img_hist.clearAll();
     this.img_width = new_width;
     this.img_height = new_height;
     this.img.resize(img_width, img_height);
     this.original_img.resize(img_width, img_height);
+    addThisImg();
+    
   }
   
   void setPixelXY(int x, int y, color c){
