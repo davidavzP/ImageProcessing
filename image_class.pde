@@ -1,13 +1,15 @@
 class Image{
   
   ImageList img_hist = new ImageList();
+  FilterApplier filter_applier = new FilterApplier();
   
   PImage img;
   int img_width;
   int img_height;
-  FilterApplier filter_applier = new FilterApplier();
-  int[] channels = {0,0,0,1};
-  int refreshrate = 60; //every x frames filters are reapplied
+
+  
+  // unused code
+  //int refreshrate = 60; //every x frames filters are reapplied
 
  
   //loads an Image from a file
@@ -93,43 +95,31 @@ class Image{
   //this will actually change the last img value to be the new rgb value
   void changeChannel(Filter f, int val){
     
-    switch(f){
-      case REDCHANNEL:
-              channels[0] = val;
-              break;
-      case GREENCHANNEL:
-              channels[1] = val;
-              break;
-      case BLUECHANNEL:
-              channels[2] = val;
-              break;
-      case ALPHACHANNEL:
-              channels[3] = val;
-              break;
-    }
-    
     img_hist.clearLastImg();
     PImage prev = img_hist.getPrevImg().copy();
     Filter filter = img_hist.getCurrFilter();
-    PImage channel_img = filter_applier.updateChannels(prev, channels);
+    PImage channel_img;
+    
+    switch(f){
+      case REDCHANNEL:
+              channel_img = filter_applier.changeRedChannel(prev, val);
+              break;
+      case GREENCHANNEL:
+              channel_img = filter_applier.changeGreenChannel(prev, val);
+              break;
+      case BLUECHANNEL:
+              channel_img = filter_applier.changeBlueChannel(prev, val);
+              break;
+      case ALPHACHANNEL:
+              channel_img = filter_applier.changeAlphaChannel(prev, val);
+              break;
+      default:
+              channel_img = prev;
+              break;
+    }
+    
     PImage filtered_img = filter_applier.applyFilter(channel_img, filter);
-    img_hist.setChannels(filtered_img);
-  }
-  
-  int getRedChannel(){
-     return this.channels[0];
-  }
-  
-  int getGreenChannel(){
-     return this.channels[1];
-  }
-  
-  int getBlueChannel(){
-     return this.channels[2];
-  }
-  
-  int getAlphaChannel(){
-     return this.channels[3];
+    img_hist.setChannel(filtered_img);
   }
   
 }

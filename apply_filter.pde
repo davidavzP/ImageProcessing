@@ -42,13 +42,6 @@ class FilterApplier {
     return image; 
   }
   
-  PImage updateChannels(PImage img, int[] vals){
-    img = changeRedChannel(img, vals[0]);
-    img = changeGreenChannel(img, vals[1]);
-    img = changeBlueChannel(img, vals[2]);
-    return changeAlphaChannel(img, vals[3]);
-  }
-  
   PImage changeRedChannel(PImage img, int val){
      for(int x = 0; x < img.width; x++){
             for(int y = 0; y <  img.height; y++){
@@ -105,6 +98,7 @@ class FilterApplier {
   }
   
   PImage changeAlphaChannel(PImage img, int val){
+    println("alpha val is " + val);
      for(int x = 0; x < img.width; x++){
             for(int y = 0; y <  img.height; y++){
               color original_Color = img.get(x,y);

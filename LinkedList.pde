@@ -23,7 +23,7 @@ class FPImage {
    return filter; 
   }
   
-  void setChannels(PImage image){
+  void setChannel(PImage image){
     this.img = image;
   }
   
@@ -51,7 +51,6 @@ class ImageList{
       list.add(i, img);
     }
     
-  //dddddddddddddddddddddddddddddddddddddddddddddddd
   PImage getPrevImg(){
     if (list.size() == 1) return peekCurrOrgImg();
     
@@ -59,10 +58,9 @@ class ImageList{
     return list.get(prev_index).getImg();
   }
   
-  void setChannels(PImage image){
-    list.peekLast().setChannels(image);
+  void setChannel(PImage image){
+    list.peekLast().setChannel(image);
   }
-  //dddddddddddddddddddddddddddddddddddddddddddddddd
   
   PImage peekFirst(){
     return list.peekFirst().getImg();
