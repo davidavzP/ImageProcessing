@@ -48,12 +48,10 @@ class Image{
       PImage curr_img = img_hist.peekCurrOrgImg().copy();
       PImage filtered_img = filter_applier.applyFilter(curr_img, filter); 
       FPImage fpimg = new FPImage(filtered_img, filter);
-      
       img_hist.push(fpimg);
     }
     else {
       img_hist.removeAllFilters(); 
-      
     }
   }
   
@@ -102,6 +100,7 @@ class Image{
   
   //this will actually change the last img value to be the new rgb value
   void changeChannel(Filter f, int val){
+    
     switch(f){
       case REDCHANNEL:
               channels[0] = val;
@@ -116,6 +115,8 @@ class Image{
               channels[3] = val;
               break;
     }
+
+    
   }
   
   int getRedChannel(){

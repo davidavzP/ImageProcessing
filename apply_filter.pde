@@ -42,10 +42,10 @@ class FilterApplier {
     return image; 
   }
   
-  Image changeRedChannel(Image img, int val){
-     for(int x = 0; x < img.getWidth(); x++){
-            for(int y = 0; y <  img.getHeight(); y++){
-              color original_Color = img.getPixelXY(x,y);
+  PImage changeRedChannel(PImage img, int val){
+     for(int x = 0; x < img.width; x++){
+            for(int y = 0; y <  img.height; y++){
+              color original_Color = img.get(x,y);
               color new_color;
               float red = red(original_Color);
               float green = green(original_Color);
@@ -53,7 +53,7 @@ class FilterApplier {
               int added_red = int(red) + val;
               int new_val = constrain(added_red, 0, 255);
               new_color = color(new_val, green, blue);
-              img.setPixelXY(x,y, new_color);
+              img.set(x,y, new_color);
             }
      }
      return img;
@@ -218,15 +218,16 @@ class FilterApplier {
   PImage applyConvolution(PImage img, Matrix matrix){
     for(int x = 0; x < img.width; x++){
       for(int y = 0; y < img.height; y++){
+        int pixel_loc = x + y*img.width;
         color conv_color = convoluteAt(img, x, y, matrix);
-        img.set(x, y, conv_color);
+        img.pixels[pixel_loc] = conv_color;
       }
     }
     return img;
   }
 
   color convoluteAt(PImage img, int x, int y, Matrix matrix){
-    if (matrix.getWidth() != matrix.getHeight()) return img.get(x,y);
+    //if (matrix.getWidth() != matrix.getHeight()) return img.get(x,y);
     
     int offset = matrix.getWidth()/2;
     float pixel_val_R = 0;
@@ -235,20 +236,23 @@ class FilterApplier {
       
     //use transposed version of the original matrix
     Matrix trans_matrix = matrix.transposed(matrix);
-    
-    for(int i = 0; i < matrix.getHeight(); i++){
+    print(img.width);
+    for(int i = 0; i < matrix.getWidth(); i++){
       for(int j = 0; j < matrix.getWidth(); j++){
         
          //gives surrounding pixels of x,y
-         int surpix_x = x + j - offset;
-         int surpix_y = y + i - offset;
+         int surpix_x = x + i - offset;
+         int surpix_y = y + j - offset;
+         int surpix_loc = surpix_x + surpix_y*img.width;
          
          //ensures that if the surrounding pixels are outside the bounds are not calculated
-         surpix_x = constrain(surpix_x, 0, img.width);
-         surpix_y = constrain(surpix_y, 0, img.height);
+         //surpix_x = constrain(surpix_x, 0, img.width);
+         //surpix_y = constrain(surpix_y, 0, img.height);
+         
+         surpix_loc = constrain(surpix_loc, 0, img.pixels.length - 1);
          
          //perform convolution
-         color curr_color = img.get(surpix_x, surpix_y);
+         color curr_color = img.pixels[surpix_loc];
          pixel_val_R += red(curr_color) * trans_matrix.getValue(i,j);
          pixel_val_G += green(curr_color) * trans_matrix.getValue(i,j);
          pixel_val_B += blue(curr_color) * trans_matrix.getValue(i,j);

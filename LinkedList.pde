@@ -65,6 +65,10 @@ class ImageList{
     return list.peek().getImg();
   }
   
+  FPImage popCurrImg(){
+    return list.pop();
+  }
+  
   void clearLastImg(){
     list.getLast().resetNode();
   }
