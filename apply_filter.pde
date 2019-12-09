@@ -42,6 +42,13 @@ class FilterApplier {
     return image; 
   }
   
+  PImage updateChannels(PImage img, int[] vals){
+    img = changeRedChannel(img, vals[0]);
+    img = changeGreenChannel(img, vals[1]);
+    img = changeBlueChannel(img, vals[2]);
+    return changeAlphaChannel(img, vals[3]);
+  }
+  
   PImage changeRedChannel(PImage img, int val){
      for(int x = 0; x < img.width; x++){
             for(int y = 0; y <  img.height; y++){
@@ -60,10 +67,10 @@ class FilterApplier {
     
   }
   
-  Image changeGreenChannel(Image img, int val){
-     for(int x = 0; x < img.getWidth(); x++){
-            for(int y = 0; y <  img.getHeight(); y++){
-              color original_Color = img.getPixelXY(x,y);
+  PImage changeGreenChannel(PImage img, int val){
+     for(int x = 0; x < img.width; x++){
+            for(int y = 0; y <  img.height; y++){
+              color original_Color = img.get(x,y);
               color new_color;
               float red = red(original_Color);
               float green = green(original_Color);
@@ -71,17 +78,17 @@ class FilterApplier {
               int added_green = int(green) + val;
               int new_val = constrain(added_green, 0, 255);
               new_color = color(red, new_val, blue);
-              img.setPixelXY(x,y, new_color);
+              img.set(x,y, new_color);
             }
      }
      return img;
     
   }
   
-  Image changeBlueChannel(Image img, int val){
-     for(int x = 0; x < img.getWidth(); x++){
-            for(int y = 0; y <  img.getHeight(); y++){
-              color original_Color = img.getPixelXY(x,y);
+  PImage changeBlueChannel(PImage img, int val){
+     for(int x = 0; x < img.width; x++){
+            for(int y = 0; y <  img.height; y++){
+              color original_Color = img.get(x,y);
               color new_color;
               float red = red(original_Color);
               float green = green(original_Color);
@@ -90,17 +97,17 @@ class FilterApplier {
               int added_blue = int(blue) + val;
               int new_val = constrain(added_blue, 0, 255);
               new_color = color(red, green, new_val);
-              img.setPixelXY(x,y, new_color);
+              img.set(x,y, new_color);
             }
      }
      return img;
     
   }
   
-  Image changeAlphaChannel(Image img, int val){
-     for(int x = 0; x < img.getWidth(); x++){
-            for(int y = 0; y <  img.getHeight(); y++){
-              color original_Color = img.getPixelXY(x,y);
+  PImage changeAlphaChannel(PImage img, int val){
+     for(int x = 0; x < img.width; x++){
+            for(int y = 0; y <  img.height; y++){
+              color original_Color = img.get(x,y);
               color new_color;
               float red = red(original_Color);
               float green = green(original_Color);
@@ -108,8 +115,9 @@ class FilterApplier {
               float alpha = alpha(original_Color);
               int added_alpha = int(alpha) - val;
               int new_val = constrain(added_alpha, 1, 0);
+              new_val = int(map(new_val, 1, 0, 255, 0));
               new_color = color(red, green, blue, new_val);
-              img.setPixelXY(x,y, new_color);
+              img.set(x,y, new_color);
             }
      }
      return img;

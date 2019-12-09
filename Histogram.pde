@@ -31,7 +31,6 @@ class Histogram extends PApplet {
   }
   
   public void draw() {
-    
     background(0);
     
     for (int i = 0; i < width; i++) {
@@ -54,7 +53,6 @@ class Histogram extends PApplet {
   }
   
   void update(PImage image) {
-    //if (this.image == image) { return; }
     this.image = image;  
     
     //clear values of the previous picture
@@ -74,7 +72,6 @@ class Histogram extends PApplet {
         reds[r]++;
         greens[g]++;
         blues[b]++;
-        
       }
     }
     

@@ -31,8 +31,7 @@ void createSliders(){
   createRedSlider();
   createGreenSlider();
   createBlueSlider();
-  //Doesn't work yet, might need a background
-  //createAlphaSlider();
+  createAlphaSlider();
 }
 
 void createRedSlider(){
@@ -66,12 +65,10 @@ void createAlphaSlider(){
   cp5.addSlider("Alpha Slider")
      .setPosition(620,550)
      .setSize(100,20)
-     .setRange(0,1)
-     .setValue(0)
+     .setRange(1,0)
+     .setValue(1)
      ;
 }
-
-
 
 void controlEvent(ControlEvent theEvent) {
   if (theEvent.isGroup()) {
@@ -86,21 +83,20 @@ void controlEvent(ControlEvent theEvent) {
         println(" Filter: " + filter.asString());
         img_gui.newFilter(filter);
       } else if(theEvent.isFrom(cp5.getController("Red Slider"))){
-           getChannelValue(theEvent, Filter.REDCHANNEL);
+           setChannelValue(theEvent, Filter.REDCHANNEL);
       }else if(theEvent.isFrom(cp5.getController("Green Slider"))){
-          getChannelValue(theEvent, Filter.GREENCHANNEL);
+          setChannelValue(theEvent, Filter.GREENCHANNEL);
       }else if(theEvent.isFrom(cp5.getController("Blue Slider"))){
-          getChannelValue(theEvent, Filter.BLUECHANNEL);
+          setChannelValue(theEvent, Filter.BLUECHANNEL);
       }else if(theEvent.isFrom(cp5.getController("Alpha Slider"))){
-          getChannelValue(theEvent, Filter.ALPHACHANNEL);
+          setChannelValue(theEvent, Filter.ALPHACHANNEL);
       }
-    
-    
+     
   }
 }
 
-void getChannelValue(ControlEvent theEvent, Filter f){
+void setChannelValue(ControlEvent theEvent, Filter f){
          println("event from controller : "+theEvent.getController().getValue()+" from "+theEvent.getController());
          int clicked = int(theEvent.getController().getValue());
          img_gui.changeChannel(f, clicked);
-  }
+}

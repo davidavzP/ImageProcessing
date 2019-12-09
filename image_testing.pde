@@ -1,13 +1,11 @@
 import controlP5.*;
 
 Image img_gui;
-
 ControlP5 cp5;
-
 DropdownList d1;
 DropDownArray ddarray1;
-PShape square;  
 Histogram histogram;
+PShape square;
 
 void settings() {
   //image size 1024x1024
@@ -17,10 +15,7 @@ void settings() {
 
 //this setup() function runs before anything else               
 void setup(){
-  //image size 1024x1024
-  //size(800, 600, P3D);
   img_gui = new Image("sunflower.jpg");
-  //the resize causes problems with 
   img_gui.resize_img(600, 600);
 
   createImageFrame();
@@ -38,7 +33,7 @@ void draw(){
   shape(square, 0,0);
   img_gui.image_loadPixels();
   img_gui.image_updatePixels();
-  image(img_gui.getImage(), 0,0);
+  image(img_gui.getImage(), 0, 0);
   
   histogram.update(img_gui.getImage());
 }

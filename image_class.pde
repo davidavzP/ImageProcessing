@@ -9,16 +9,13 @@ class Image{
   int[] channels = {0,0,0,1};
   int refreshrate = 60; //every x frames filters are reapplied
 
-
-  
-  
-   //loads an Image from a file
+ 
+  //loads an Image from a file
   Image(String file){
     img = loadImage(file);
     this.img_width = img.width;
     this.img_height = img.height;
     addThisImg();
-    
   }
   
   private void addThisImg(){
@@ -33,7 +30,6 @@ class Image{
     this.img_width = img.width;
     this.img_height = img.height;
   }
-  
   
   void newFilter(Filter filter){
     //apply filter to last thing in the linked then append new img then apply any red blue or green values
@@ -79,6 +75,12 @@ class Image{
   }
   
   void image_updatePixels(){
+    img_hist.clearLastImg();
+    PImage prev = img_hist.getPrevImg().copy();
+    Filter filter = img_hist.getCurrFilter();
+    PImage channel_img = filter_applier.updateChannels(prev, channels);
+    PImage filtered_img = filter_applier.applyFilter(channel_img, filter);
+    img_hist.setChannels(filtered_img);
     img_hist.peekCurrImg().updatePixels();
   }
   
@@ -111,8 +113,6 @@ class Image{
               channels[3] = val;
               break;
     }
-
-    
   }
   
   int getRedChannel(){

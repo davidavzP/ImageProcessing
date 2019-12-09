@@ -15,21 +15,24 @@ class FPImage {
    return img; 
   }
   
+  PImage getOrgImg(){
+    return orginal_img;
+  }
+  
    Filter getFilter(){
    return filter; 
   }
   
-  PImage getOrgImg(){
-    return orginal_img;
+  void setChannels(PImage image){
+    this.img = image;
   }
   
   void resetNode(){
     this.img = orginal_img.copy();
   }
   
-  
-  
 }
+
 
 class ImageList{
   LinkedList<FPImage> list = new LinkedList<FPImage>();
@@ -42,12 +45,24 @@ class ImageList{
     if(!list.isEmpty()){
       list.getLast().resetNode();
     }
-    
   }
   
   void addAtIndex(int i, FPImage img){
       list.add(i, img);
+    }
+    
+  //dddddddddddddddddddddddddddddddddddddddddddddddd
+  PImage getPrevImg(){
+    if (list.size() == 1) return peekCurrOrgImg();
+    
+    int prev_index = list.size() - 2;
+    return list.get(prev_index).getImg();
   }
+  
+  void setChannels(PImage image){
+    list.peekLast().setChannels(image);
+  }
+  //dddddddddddddddddddddddddddddddddddddddddddddddd
   
   PImage peekFirst(){
     return list.peekFirst().getImg();
@@ -63,6 +78,10 @@ class ImageList{
   
   PImage peekOrgImg(){
     return list.peek().getImg();
+  }
+  
+  Filter getCurrFilter(){
+    return list.peekLast().getFilter();
   }
   
   FPImage popCurrImg(){
@@ -86,6 +105,5 @@ class ImageList{
   int listSize(){
      return list.size(); 
   }
-  
   
 }
