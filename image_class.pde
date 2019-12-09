@@ -48,6 +48,7 @@ class Image{
     else {
       img_hist.removeAllFilters(); 
     }
+    changeChannel(Filter.NONE, 0);
   }
   
   void resize_img(int new_width, int new_height){
