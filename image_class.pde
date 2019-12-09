@@ -3,7 +3,6 @@ class Image{
   ImageList img_hist = new ImageList();
   
   PImage img;
-  PImage original_img;
   int img_width;
   int img_height;
   FilterApplier filter_applier = new FilterApplier();
@@ -16,7 +15,6 @@ class Image{
    //loads an Image from a file
   Image(String file){
     img = loadImage(file);
-    original_img = loadImage(file);
     this.img_width = img.width;
     this.img_height = img.height;
     addThisImg();
@@ -32,7 +30,6 @@ class Image{
   //creates an Emtpy Image
   Image(int img_width, int img_height){
     img = createImage(img_width, img_height, RGB);
-    original_img = createImage(img_width, img_height, RGB);
     this.img_width = img.width;
     this.img_height = img.height;
   }
@@ -60,7 +57,6 @@ class Image{
     this.img_width = new_width;
     this.img_height = new_height;
     this.img.resize(img_width, img_height);
-    this.original_img.resize(img_width, img_height);
     addThisImg();
     
   }

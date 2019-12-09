@@ -238,28 +238,21 @@ class FilterApplier {
     float pixel_val_B = 0;
       
     //use transposed version of the original matrix
-    Matrix trans_matrix = matrix.transposed(matrix);
+    Matrix trans_matrix = matrix.transposed();
     for(int i = 0; i < matrix.getWidth(); i++){
       for(int j = 0; j < matrix.getWidth(); j++){
         
          //gives surrounding pixels of x,y
          int surpix_x = x + i - offset;
          int surpix_y = y + j - offset;
-         
-         
-      
+    
          int surpix_loc = surpix_x + surpix_y*img.width;
          
          //ensures that if the surrounding pixels are outside the bounds are not calculated
-         
-         
          surpix_loc = constrain(surpix_loc, 0, img.pixels.length - 1);
          
          //perform convolution
          color curr_color = img.pixels[surpix_loc];
-         if (x == 150 && y == 150){
-           println("val: " + trans_matrix.getValue(i,j) + " i: " + i + " j: " + j + " red: " + blue(curr_color));
-         }
          pixel_val_R += (red(curr_color) * trans_matrix.getValue(i,j));
          pixel_val_G += (green(curr_color) * trans_matrix.getValue(i,j));
          pixel_val_B += (blue(curr_color) * trans_matrix.getValue(i,j));

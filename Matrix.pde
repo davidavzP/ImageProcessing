@@ -64,14 +64,12 @@ class Matrix {
     return m_width;
   }
   
-  Matrix transposed(Matrix matrix){
-    int t_width = matrix.getHeight();
-    int t_height = matrix.getWidth();
-    Matrix t_matrix = new Matrix(t_height, t_width);
-    for(int i = 0; i < t_height; i++){
-      t_matrix.setLine(i,new float[t_width]);
-      for(int j = 0; j < t_width; j++){
-        t_matrix.setValue(i, j, matrix.getValue(j,i));
+  Matrix transposed(){
+    Matrix t_matrix = new Matrix(this.m_height, this.m_width);
+    for(int i = 0; i < this.m_height; i++){
+      t_matrix.setLine(i,new float[this.m_width]);
+      for(int j = 0; j < this.m_width; j++){
+        t_matrix.setValue(i, j, this.matrix[j][i]);
       }
     }
     return t_matrix; //<>// //<>//
