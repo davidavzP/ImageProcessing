@@ -75,12 +75,6 @@ class Image{
   }
   
   void image_updatePixels(){
-    img_hist.clearLastImg();
-    PImage prev = img_hist.getPrevImg().copy();
-    Filter filter = img_hist.getCurrFilter();
-    PImage channel_img = filter_applier.updateChannels(prev, channels);
-    PImage filtered_img = filter_applier.applyFilter(channel_img, filter);
-    img_hist.setChannels(filtered_img);
     img_hist.peekCurrImg().updatePixels();
   }
   
@@ -113,6 +107,13 @@ class Image{
               channels[3] = val;
               break;
     }
+    
+    img_hist.clearLastImg();
+    PImage prev = img_hist.getPrevImg().copy();
+    Filter filter = img_hist.getCurrFilter();
+    PImage channel_img = filter_applier.updateChannels(prev, channels);
+    PImage filtered_img = filter_applier.applyFilter(channel_img, filter);
+    img_hist.setChannels(filtered_img);
   }
   
   int getRedChannel(){
