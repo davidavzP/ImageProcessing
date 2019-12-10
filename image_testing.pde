@@ -5,6 +5,7 @@ ControlP5 cp5;
 DropdownList d1;
 DropDownArray ddarray1;
 PShape square;
+int opacity;
 
 void settings() {
   //image size 1024x1024
@@ -21,6 +22,8 @@ void setup(){
   cp5 = new ControlP5(this);
   createDropdownList();
   createSliders();
+  
+  opacity = 255;
 }
 
 
@@ -30,5 +33,6 @@ void draw(){
   shape(square, 0,0);
   img_gui.image_loadPixels();
   img_gui.image_updatePixels();
+  tint(255, opacity);
   image(img_gui.getImage(), 0, 0);
 }

@@ -126,7 +126,6 @@ class Image{
     
     channel_img = filter_applier.changeRGBChannels(prev, channels);
     PImage filtered_img = filter_applier.applyFilter(channel_img, filter);
-    filtered_img = filter_applier.changeAlphaChannel(filtered_img, 50);
     img_hist.setChannel(filtered_img);
     histogram.update(this.getImage());
   }

@@ -31,7 +31,7 @@ void createSliders(){
   createRedSlider();
   createGreenSlider();
   createBlueSlider();
-  //createAlphaSlider();
+  createAlphaSlider();
 }
 
 void createRedSlider(){
@@ -65,8 +65,8 @@ void createAlphaSlider(){
   cp5.addSlider("Alpha Slider")
      .setPosition(620,550)
      .setSize(100,20)
-     .setRange(0, 255)
-     .setValue(255)
+     .setRange(0, 100)
+     .setValue(100)
      ;
 }
 
@@ -98,5 +98,6 @@ void controlEvent(ControlEvent theEvent) {
 void setChannelValue(ControlEvent theEvent, Filter f){
          println("event from controller : "+theEvent.getController().getValue()+" from "+theEvent.getController());
          int clicked = int(theEvent.getController().getValue());
+         if (f == Filter.ALPHACHANNEL) opacity = int(map(clicked, 0, 100, 0, 255));
          img_gui.changeChannel(f, clicked);
 }
