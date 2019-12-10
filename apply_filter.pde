@@ -58,78 +58,75 @@ class FilterApplier {
      }
      return img;
   }
+
+  //These are not used
+  //
+  //PImage changeRedChannel(PImage img, int val){
+  //   for(int x = 0; x < img.width; x++){
+  //          for(int y = 0; y <  img.height; y++){
+  //            color original_Color = img.get(x,y);
+  //            color new_color;
+  //            float red = red(original_Color);
+  //            float green = green(original_Color);
+  //            float blue = blue(original_Color);
+  //            int added_red = int(red) + val;
+  //            int new_val = constrain(added_red, 0, 255);
+  //            new_color = color(new_val, green, blue);
+  //            img.set(x,y, new_color);
+  //          }
+  //   }
+  //   return img;
+  //}
   
-  PImage changeRedChannel(PImage img, int val){
-     for(int x = 0; x < img.width; x++){
-            for(int y = 0; y <  img.height; y++){
-              color original_Color = img.get(x,y);
-              color new_color;
-              float red = red(original_Color);
-              float green = green(original_Color);
-              float blue = blue(original_Color);
-              int added_red = int(red) + val;
-              int new_val = constrain(added_red, 0, 255);
-              new_color = color(new_val, green, blue);
-              img.set(x,y, new_color);
-            }
-     }
-     return img;
-  }
+  //PImage changeGreenChannel(PImage img, int val){
+  //   for(int x = 0; x < img.width; x++){
+  //          for(int y = 0; y <  img.height; y++){
+  //            color original_Color = img.get(x,y);
+  //            color new_color;
+  //            float red = red(original_Color);
+  //            float green = green(original_Color);
+  //            float blue = blue(original_Color);
+  //            int added_green = int(green) + val;
+  //            int new_val = constrain(added_green, 0, 255);
+  //            new_color = color(red, new_val, blue);
+  //            img.set(x,y, new_color);
+  //          }
+  //   }
+  //   return img;
+  //}
   
-  PImage changeGreenChannel(PImage img, int val){
-     for(int x = 0; x < img.width; x++){
-            for(int y = 0; y <  img.height; y++){
-              color original_Color = img.get(x,y);
-              color new_color;
-              float red = red(original_Color);
-              float green = green(original_Color);
-              float blue = blue(original_Color);
-              int added_green = int(green) + val;
-              int new_val = constrain(added_green, 0, 255);
-              new_color = color(red, new_val, blue);
-              img.set(x,y, new_color);
-            }
-     }
-     return img;
-  }
-  
-  PImage changeBlueChannel(PImage img, int val){
-     for(int x = 0; x < img.width; x++){
-            for(int y = 0; y <  img.height; y++){
-              color original_Color = img.get(x,y);
-              color new_color;
-              float red = red(original_Color);
-              float green = green(original_Color);
-              float blue = blue(original_Color);
-              //this makes something pretty int added_blue = int(green) + val;
-              int added_blue = int(blue) + val;
-              int new_val = constrain(added_blue, 0, 255);
-              new_color = color(red, green, new_val);
-              img.set(x,y, new_color);
-            }
-     }
-     return img;
-  }
+  //PImage changeBlueChannel(PImage img, int val){
+  //   for(int x = 0; x < img.width; x++){
+  //          for(int y = 0; y <  img.height; y++){
+  //            color original_Color = img.get(x,y);
+  //            color new_color;
+  //            float red = red(original_Color);
+  //            float green = green(original_Color);
+  //            float blue = blue(original_Color);
+  //            //this makes something pretty int added_blue = int(green) + val;
+  //            int added_blue = int(blue) + val;
+  //            int new_val = constrain(added_blue, 0, 255);
+  //            new_color = color(red, green, new_val);
+  //            img.set(x,y, new_color);
+  //          }
+  //   }
+  //   return img;
+  //}
   
   PImage changeAlphaChannel(PImage img, int val){
     println("alpha val is " + val);
-     for(int x = 0; x < img.width; x++){
-            for(int y = 0; y <  img.height; y++){
-              color original_Color = img.get(x,y);
-              color new_color;
-              float red = red(original_Color);
-              float green = green(original_Color);
-              float blue = blue(original_Color);
-              float alpha = alpha(original_Color);
-              int added_alpha = int(alpha) - val;
-              int new_val = constrain(added_alpha, 1, 0);
-              new_val = int(map(new_val, 1, 0, 255, 0));
-              new_color = color(red, green, blue, new_val);
-              img.set(x,y, new_color);
-            }
+    for(int x = 0; x < img.width; x++){
+        for(int y = 0; y <  img.height; y++){
+        color original_Color = img.get(x,y);
+        float red = red(original_Color);
+        float green = green(original_Color);
+        float blue = blue(original_Color);
+        //val = int(map(new_val, 1, 0, 255, 0));
+        color new_color = color(red, green, blue, val);
+        img.set(x,y, new_color);
+      }
      }
      return img;
-    
   }
  
   PImage applyGreyscale(PImage img){

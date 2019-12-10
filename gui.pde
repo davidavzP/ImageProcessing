@@ -9,7 +9,7 @@ void createDropdownList(){
 void createImageFrame(){
   square = createShape(RECT, 1, 1, 600, 598);
   square.setFill(false);
-  square.setStroke(color(0, 0,0));
+  square.setStroke(color(0, 0, 0));
 }
 
 void customize(DropdownList ddl) {
@@ -31,7 +31,7 @@ void createSliders(){
   createRedSlider();
   createGreenSlider();
   createBlueSlider();
-  createAlphaSlider();
+  //createAlphaSlider();
 }
 
 void createRedSlider(){
@@ -65,8 +65,8 @@ void createAlphaSlider(){
   cp5.addSlider("Alpha Slider")
      .setPosition(620,550)
      .setSize(100,20)
-     .setRange(1,0)
-     .setValue(1)
+     .setRange(0, 255)
+     .setValue(255)
      ;
 }
 

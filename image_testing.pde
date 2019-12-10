@@ -4,7 +4,6 @@ Image img_gui;
 ControlP5 cp5;
 DropdownList d1;
 DropDownArray ddarray1;
-Histogram histogram;
 PShape square;
 
 void settings() {
@@ -22,8 +21,6 @@ void setup(){
   cp5 = new ControlP5(this);
   createDropdownList();
   createSliders();
-  
-  histogram = new Histogram(img_gui.getImage());
 }
 
 
@@ -34,6 +31,4 @@ void draw(){
   img_gui.image_loadPixels();
   img_gui.image_updatePixels();
   image(img_gui.getImage(), 0, 0);
-  
-  histogram.update(img_gui.getImage());
 }
