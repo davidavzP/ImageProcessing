@@ -36,3 +36,7 @@ void draw(){
   //tint(255, opacity);
   image(img_gui.getImage(), 0, 0);
 }
+
+void  stop(){
+  exit();
+}

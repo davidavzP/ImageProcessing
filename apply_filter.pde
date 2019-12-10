@@ -3,7 +3,7 @@ import java.util.*;
 class FilterApplier {
   PImage background;
   int blur_strength = 2;
-  color alpha_color = color(255,0,0);
+  color alpha_color = color(140,180,240);
   int greyscale_type = 0; // 0 => average, 1 => lightness, 2 => luminosity
   float[][] conv_matrix = { { -1 ,  0 , -1 },
                             {  0 ,  4 ,  0 },
@@ -43,11 +43,14 @@ class FilterApplier {
         case CONVOLUTION:
           image = applyConvolution(image, new Matrix(conv_matrix, conv_matrix.length));
           break;
+        case COLORTOALPHA:
+          image = applyColorToAlpha(image, alpha_color);
+          break;
     }
     return image; 
   }
   
-  PImage changeRGBChannels(PImage img, int[] vals){
+  PImage changeRGBChannels(PImage img, float[] vals){
      for(int x = 0; x < img.width; x++){
             for(int y = 0; y <  img.height; y++){
               color original_Color = img.get(x,y);
@@ -119,8 +122,8 @@ class FilterApplier {
   //}
   
   color blendWithBackImg(color org, int x, int y, float val){
-    int new_X = (x % background.width) + 1;
-    int new_Y = (y % background.height) + 1;
+    int new_X = (x % background.width);
+    int new_Y = (y % background.height);
     color merge_Col = background.get(new_X,new_Y);
     float red = red(org) + val * (red(merge_Col)-red(org));
     float green = green(org) + val * (green(merge_Col)-green(org));
@@ -131,6 +134,7 @@ class FilterApplier {
     return color(red,green,blue);
   }
   
+  /*
   PImage changeAlphaChannel(PImage img, int val){
     println("alpha val is " + val);
     for(int x = 0; x < img.width; x++){
@@ -146,6 +150,7 @@ class FilterApplier {
      }
      return img;
   }
+ */
  
   PImage applyGreyscale(PImage img){
     for(int x = 0; x < img.width; x++){
@@ -176,18 +181,18 @@ class FilterApplier {
     return img;
   }
   
-  Image applyColorToAlpha(Image img, color col){
-    Image result = img;
-    for(int x = 0; x < img.getWidth(); x++){
-            for(int y = 0; y < img.getHeight(); y++){
+  PImage applyColorToAlpha(PImage img, color col){
+    PImage result = img;
+    for(int x = 0; x < img.width; x++){
+            for(int y = 0; y < img.height; y++){
               //do image processing
-              color prev_col = img.getPixelXY(x,y);
-              float red_difference = abs(red(col)-red(prev_col));
-              float green_difference = abs(green(col)-green(prev_col));
-              float blue_difference = abs(blue(col)-blue(prev_col));
-              int difference = constrain(round(red_difference + green_difference + blue_difference), 0, 255);
-              color new_color = blendWithBackImg(prev_col, x, y, difference);
-              result.setPixelXY(x,y,new_color);
+              color prev_col = img.get(x,y);
+              float red_difference = abs(red(col)-red(prev_col))/255;
+              float green_difference = abs(green(col)-green(prev_col))/255;
+              float blue_difference = abs(blue(col)-blue(prev_col))/255;
+              float difference = constrain(red_difference + green_difference + blue_difference, 0, 1);
+              color new_color = blendWithBackImg(prev_col, x, y,1 - difference);
+              result.set(x,y,new_color);
             }
     }
     return result;

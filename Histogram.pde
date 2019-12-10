@@ -90,5 +90,7 @@ class Histogram extends PApplet {
     }
 
   }
-  
+  void  stop(){
+  exit();
+}
 }

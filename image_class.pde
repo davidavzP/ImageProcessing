@@ -8,7 +8,7 @@ class Image{
   int img_width;
   int img_height;
   
-  int[] channels = {0, 0, 0 , 255};
+  float[] channels = {0, 0, 0 , 1};
 
   
   // unused code
@@ -98,7 +98,7 @@ class Image{
   }
   
   //this will actually change the last img value to be the new rgb value
-  void changeChannel(Filter f, int val){
+  void changeChannel(Filter f, float val){
     
     img_hist.clearLastImg();
     PImage prev = img_hist.getPrevImg().copy();
@@ -117,8 +117,8 @@ class Image{
               break;
       case ALPHACHANNEL:
       // to be fixed
-              channels[3] = 1 - val;
-              //channel_img = prev;
+              channels[3] = (100 - val)/100;
+              channel_img = prev;
               break;
       default:
               channel_img = prev;

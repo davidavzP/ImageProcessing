@@ -40,6 +40,7 @@ void createRedSlider(){
      .setSize(100,20)
      .setRange(-255,255)
      .setValue(0)
+     .setNumberOfTickMarks(103)
      ;
 }
 
@@ -49,6 +50,7 @@ void createGreenSlider(){
      .setSize(100,20)
      .setRange(-255,255)
      .setValue(0)
+     .setNumberOfTickMarks(103)
      ;
 }
 
@@ -58,6 +60,7 @@ void createBlueSlider(){
      .setSize(100,20)
      .setRange(-255,255)
      .setValue(0)
+     .setNumberOfTickMarks(103)
      ;
 }
 
@@ -65,8 +68,9 @@ void createAlphaSlider(){
   cp5.addSlider("Alpha Slider")
      .setPosition(620,550)
      .setSize(100,20)
-     .setRange(0, 1)
-     .setValue(1)
+     .setRange(0, 100)
+     .setValue(100)
+     .setNumberOfTickMarks(21)
      ;
 }
 
@@ -98,6 +102,6 @@ void controlEvent(ControlEvent theEvent) {
 void setChannelValue(ControlEvent theEvent, Filter f){
          println("event from controller : "+theEvent.getController().getValue()+" from "+theEvent.getController());
          int clicked = int(theEvent.getController().getValue());
-         if (f == Filter.ALPHACHANNEL) opacity = int(map(clicked, 0, 100, 0, 255));
+         //if (f == Filter.ALPHACHANNEL) opacity = int(map(clicked, 0, 100, 0, 255));
          img_gui.changeChannel(f, clicked);
 }
