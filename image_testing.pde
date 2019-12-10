@@ -33,6 +33,6 @@ void draw(){
   shape(square, 0,0);
   img_gui.image_loadPixels();
   img_gui.image_updatePixels();
-  tint(255, opacity);
+  //tint(255, opacity);
   image(img_gui.getImage(), 0, 0);
 }

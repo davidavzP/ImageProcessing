@@ -22,6 +22,7 @@ class Image{
     this.img_height = img.height;
     addThisImg();
     histogram = new Histogram(img);
+    filter_applier.setBackground(loadImage("transparencySquare.jpg"));
   }
   
   private void addThisImg(){
@@ -117,7 +118,7 @@ class Image{
       case ALPHACHANNEL:
       // to be fixed
               channels[3] = val;
-              channel_img = prev;
+              //channel_img = prev;
               break;
       default:
               channel_img = prev;

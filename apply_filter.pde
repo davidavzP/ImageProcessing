@@ -1,7 +1,7 @@
 import java.util.*;
 
 class FilterApplier {
-  
+  PImage background;
   int blur_strength = 2;
   color alpha_color = color(255,0,0);
   int greyscale_type = 0; // 0 => average, 1 => lightness, 2 => luminosity
@@ -12,6 +12,11 @@ class FilterApplier {
   void setConvolutionMatrix(Convolution  conv){
     conv_matrix = conv.getMatrix();
   }
+ 
+  void setBackground(PImage back_img){
+    background = back_img;
+  }
+ 
  
   PImage applyFilter(PImage image, Filter filter){
     switch(filter){
@@ -113,16 +118,29 @@ class FilterApplier {
   //   return img;
   //}
   
+  color blendWithBackImg(color org, int x, int y, float val){
+    int new_X = (x % background.width) + 1;
+    int new_Y = (y % background.height) + 1;
+    color merge_Col = background.get(new_X,new_Y);
+    float red = red(org) + val * (red(merge_Col)-red(org));
+    float green = green(org) + val * (green(merge_Col)-green(org));
+    float blue = blue(org) + val * (blue(merge_Col)-blue(org));
+    constrain(red,0,255);
+    constrain(green,0,255);
+    constrain(blue,0,255);
+    return color(red,green,blue);
+  }
+  
   PImage changeAlphaChannel(PImage img, int val){
     println("alpha val is " + val);
     for(int x = 0; x < img.width; x++){
         for(int y = 0; y <  img.height; y++){
         color original_Color = img.get(x,y);
-        float red = red(original_Color);
-        float green = green(original_Color);
-        float blue = blue(original_Color);
+        //float red = red(original_Color);
+        //float green = green(original_Color);
+        //float blue = blue(original_Color);
         //val = int(map(new_val, 1, 0, 255, 0));
-        color new_color = color(red, green, blue, val);
+        color new_color = blendWithBackImg(original_Color, x, y, val);
         img.set(x,y, new_color);
       }
      }
@@ -168,7 +186,7 @@ class FilterApplier {
               float green_difference = abs(green(col)-green(prev_col));
               float blue_difference = abs(blue(col)-blue(prev_col));
               int difference = constrain(round(red_difference + green_difference + blue_difference), 0, 255);
-              color new_color = color(red(prev_col), green(prev_col), blue(prev_col), difference);
+              color new_color = blendWithBackImg(prev_col, x, y, difference);
               result.setPixelXY(x,y,new_color);
             }
     }
