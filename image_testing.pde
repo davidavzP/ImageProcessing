@@ -37,6 +37,6 @@ void draw(){
   image(img_gui.getImage(), 0, 0);
 }
 
-void  stop(){
+void stop(){
   exit();
 }

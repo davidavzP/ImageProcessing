@@ -40,7 +40,7 @@ void createRedSlider(){
      .setSize(100,20)
      .setRange(-255,255)
      .setValue(0)
-     .setNumberOfTickMarks(103)
+     .setNumberOfTickMarks(103).setColorForeground(color(255, 0,0)).setColorActive(color(255, 0,0))
      ;
 }
 
@@ -50,7 +50,7 @@ void createGreenSlider(){
      .setSize(100,20)
      .setRange(-255,255)
      .setValue(0)
-     .setNumberOfTickMarks(103)
+     .setNumberOfTickMarks(103).setColorForeground(color(0, 255,0)).setColorActive(color(0, 255,0))
      ;
 }
 
@@ -60,7 +60,7 @@ void createBlueSlider(){
      .setSize(100,20)
      .setRange(-255,255)
      .setValue(0)
-     .setNumberOfTickMarks(103)
+     .setNumberOfTickMarks(103).setColorForeground(color(0, 0,255)).setColorActive(color(0, 0,255))
      ;
 }
 
@@ -70,7 +70,7 @@ void createAlphaSlider(){
      .setSize(100,20)
      .setRange(0, 100)
      .setValue(100)
-     .setNumberOfTickMarks(21)
+     .setNumberOfTickMarks(21).setColorForeground(color(255, 0,255)).setColorActive(color(255, 0,255))
      ;
 }
 
