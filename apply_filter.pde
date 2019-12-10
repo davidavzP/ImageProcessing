@@ -58,7 +58,7 @@ class FilterApplier {
               g = constrain(g, 0, 255);
               b = constrain(b, 0, 255);
               color new_color = color(r, g, b);
-              img.set(x,y, new_color);
+              img.set(x,y, blendWithBackImg(new_color, x, y, vals[3]));
             }
      }
      return img;

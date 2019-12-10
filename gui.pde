@@ -65,8 +65,8 @@ void createAlphaSlider(){
   cp5.addSlider("Alpha Slider")
      .setPosition(620,550)
      .setSize(100,20)
-     .setRange(0, 100)
-     .setValue(100)
+     .setRange(0, 1)
+     .setValue(1)
      ;
 }
 
