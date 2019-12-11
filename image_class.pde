@@ -2,7 +2,6 @@ class Image{
   
   ImageList img_hist = new ImageList();
   FilterApplier filter_applier = new FilterApplier();
-  Histogram histogram;
   
   PImage img;
   int img_width;
@@ -21,7 +20,6 @@ class Image{
     this.img_width = img.width;
     this.img_height = img.height;
     addThisImg();
-    histogram = new Histogram(img);
     filter_applier.setBackground(loadImage("transparencySquare.jpg"));
   }
   
@@ -83,6 +81,7 @@ class Image{
   
   void image_updatePixels(){
     img_hist.peekCurrImg().updatePixels();
+    img_hist.HistDraw();
   }
   
   void image_loadPixels(){
@@ -128,7 +127,8 @@ class Image{
     channel_img = filter_applier.changeRGBChannels(prev, channels);
     PImage filtered_img = filter_applier.applyFilter(channel_img, filter);
     img_hist.setChannel(filtered_img);
-    histogram.update(this.getImage());
+    //histogram.update(this.getImage());
+    img_hist.update();
   }
   
 }

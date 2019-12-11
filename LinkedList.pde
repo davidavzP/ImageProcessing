@@ -36,19 +36,29 @@ class FPImage {
 
 class ImageList{
   LinkedList<FPImage> list = new LinkedList<FPImage>();
+  LinkedList<Histogram> histograms = new LinkedList<Histogram>();
   
   void push(FPImage img) {
      list.add(img);
+     int newY = histogram_pos[1] + histograms.size() * histogram_size[1];
+     histograms.add(new Histogram(img.getImg(), new int[]{histogram_pos[0],newY}, histogram_size));
   }
   
   void resetToOrginal(){
     if(!list.isEmpty()){
       list.getLast().resetNode();
+      histograms.getLast().update(list.getLast().getImg());
     }
   }
   
   void addAtIndex(int i, FPImage img){
       list.add(i, img);
+      int newY = histogram_pos[1] + i * histogram_size[1];
+      histograms.add(new Histogram(img.getImg(), new int[]{histogram_pos[0],newY}, histogram_size));
+      for (int j = i+1; j<histograms.size(); j++){
+        newY = histogram_pos[1] + j * histogram_size[1];
+        histograms.get(j).setPos(histogram_pos[0], newY);
+      }
     }
     
   PImage getPrevImg(){
@@ -60,6 +70,7 @@ class ImageList{
   
   void setChannel(PImage image){
     list.peekLast().setChannel(image);
+    histograms.peekLast().update(image);
   }
   
   PImage peekFirst(){
@@ -83,25 +94,38 @@ class ImageList{
   }
   
   FPImage popCurrImg(){
+    histograms.pop();
     return list.pop();
   }
   
   void clearLastImg(){
     list.getLast().resetNode();
+    histograms.getLast().update(list.getLast().getImg());
   }
   
   void removeAllFilters(){
      FPImage org = list.getFirst();
      list.clear();
      push(org);
+     histograms.clear();
+     histograms.add(new Histogram(org.getImg(), histogram_pos, histogram_size));
   }
   
   void clearAll(){
     list.clear();
+    histograms.clear();
   }
   
   int listSize(){
      return list.size(); 
+  }
+  
+  void HistDraw(){
+    for (Histogram H:histograms) H.HistDraw();
+  }
+  
+  void update(){
+    for (int i = 0; i < histograms.size(); i++) histograms.get(i).update(list.get(i).getImg());
   }
   
 }
