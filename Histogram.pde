@@ -97,7 +97,7 @@ class Histogram{ //extends PApplet {
         blues[b]++;
       }
     }
-    int max_h = max( max(reds), max(greens), max(blues) ); //<>//
+    int max_h = max( max(reds) / 10, max(greens) / 10, max(blues) / 10 ); //<>//
     constrain(max_h, 0, int(image.width*image.height/8));
     
     
