@@ -30,19 +30,6 @@ class Histogram{ //extends PApplet {
     position = new int[]{X,Y};
   }
   
-  /*
-  public void settings() {
-    size(500, 400, P3D);
-    smooth();
-  }
-  
-  
-  public void setup() {
-    surface.setTitle("Histogram");
-    frameRate(1);
-  }
-  
-  */
   
   public void HistDraw() {
     
@@ -116,12 +103,12 @@ class Histogram{ //extends PApplet {
       constrain(green_h[i], 0, int(image.width*image.height/8));
       constrain(blue_h[i], 0, int(image.width*image.height/8));
       
-     /*
+     
      //logarithmic scale, but processing is bad at small numbers and makes them zero which breaks it
-      red_h[i] = h_height * round(log((h_height * reds[index]/(max_h/8)) + 1)/log(h_height+1));
-      green_h[i] = h_height * round(log((h_height * greens[index]/(max_h/8)) + 1)/log(h_height+1));
-      blue_h[i] = h_height * round(log((h_height * blues[index]/(max_h/8)) + 1)/log(h_height+1));
-    */
+      //red_h[i] = h_height * round(log((h_height * float(reds[index])/(max_h)) + 1)/log(h_height+1));
+      //green_h[i] = h_height * round(log((h_height * float(greens[index])/(max_h)) + 1)/log(h_height+1));
+      //blue_h[i] = h_height * round(log((h_height * float(blues[index])/(max_h)) + 1)/log(h_height+1));
+    
     }
 
   }

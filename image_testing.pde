@@ -34,7 +34,6 @@ void draw(){
   shape(square, 0,0);
   stroke(255);
   line(histogram_pos[0]-1, 0, histogram_pos[0]-1, 600);
-  
   img_gui.image_loadPixels();
   img_gui.image_updatePixels();
   //tint(255, opacity);

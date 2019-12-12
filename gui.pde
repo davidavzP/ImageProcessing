@@ -68,7 +68,7 @@ void createAlphaSlider(){
   cp5.addSlider("Alpha Slider")
      .setPosition(620,550)
      .setSize(100,20)
-     .setRange(0, 100)
+     .setRange(-100, 100)
      .setValue(100)
      .setNumberOfTickMarks(21).setColorForeground(color(255, 0,255)).setColorActive(color(255, 0,255))
      ;

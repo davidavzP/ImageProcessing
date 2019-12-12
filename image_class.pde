@@ -39,8 +39,6 @@ class Image{
   void newFilter(Filter filter){
     //apply filter to last thing in the linked then append new img then apply any red blue or green values
     //need to check the Linked list to see if the filter already exists to not have overlaps...maybe 
-    //add some order to ensure that negative is the last thing applied 
-    //then make logic for applying the rbg values on top
     if (filter != Filter.NONE){
       img_hist.clearLastImg();
       PImage curr_img = img_hist.peekCurrOrgImg().copy();
@@ -58,6 +56,7 @@ class Image{
     this.img_width = new_width;
     this.img_height = new_height;
     this.img.resize(img_width, img_height);
+     //this should do resizing
     addThisImg();
     
   }
@@ -127,7 +126,6 @@ class Image{
     channel_img = filter_applier.changeRGBChannels(prev, channels);
     PImage filtered_img = filter_applier.applyFilter(channel_img, filter);
     img_hist.setChannel(filtered_img);
-    //histogram.update(this.getImage());
     img_hist.update();
   }
   
