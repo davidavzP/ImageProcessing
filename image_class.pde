@@ -10,10 +10,6 @@ class Image{
   
   float[] channels = {0, 0, 0 , 1};
 
-  
-  // unused code
-  //int refreshrate = 60; //every x frames filters are reapplied
-
  
   //loads an Image from a file
   Image(String file){
