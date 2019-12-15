@@ -1,9 +1,9 @@
 class Histogram{ //extends PApplet {
   
   PImage image;
-  int[] position;
-  int h_width;   // histogram height
-  int h_height;  // histogram width
+  int[] position = new int[]{600,0};
+  int h_width = 200;   // histogram height
+  int h_height = 200;  // histogram width
   int[] reds;    //amount of pixels with their red value = index
   int[] greens;
   int[] blues;
@@ -11,12 +11,9 @@ class Histogram{ //extends PApplet {
   int[] green_h;
   int[] blue_h;
   
-  public Histogram(PImage image, int[] pos, int[] size) {
+  public Histogram(PImage image) {
     //super();
     //PApplet.runSketch(new String[]{this.getClass().getName()}, this);
-    h_width = size[0];
-    h_height = size[1];
-    position = pos;
     reds = new int[256];
     greens = new int[256];
     blues = new int[256];
@@ -26,20 +23,16 @@ class Histogram{ //extends PApplet {
     update(image);
   }
   
-  void setPos(int X, int Y){
-    position = new int[]{X,Y};
+  void setPos(int[] pos){
+    position = pos;
   }
   
+  void setSize(int[] size){
+    h_width = size[0];
+    h_height = size[1];
+  }
   
   public void HistDraw() {
-    
-    //draw black frame around histogram
-    stroke(0);
-    line(position[0]           , position[1]            , position[0] + h_width , position[1]);
-    line(position[0] + h_width , position[1]            , position[0] + h_width , position[1] + h_height);
-    line(position[0] + h_width , position[1] + h_height , position[0]           , position[1] + h_height);
-    line(position[0]           , position[1] + h_height , position[0]           , position[1]);
-    
     
     for (int i = 0; i < h_width; i++) {
       int loc_i = i + position[0];
@@ -59,6 +52,26 @@ class Histogram{ //extends PApplet {
       stroke(0, 0, 255);
       if (i > 0) line(loc_i-1, loc_height - blue_h[i-1], loc_i, loc_height - blue_h[i]);
     }
+
+    fill(0);
+    stroke(0);
+    int txtSize = h_height/15;
+    textSize(txtSize);
+    int max_h = max( max(reds) , max(greens) , max(blues) );
+    
+    int lines = 4; //how many lines along y-axis
+    for (int j = 0; j < lines; j++){
+      float pos = j/lines;
+      int value = round(pow(max_h+1, pos)-1);   //<>//
+      text(value, position[0]+1.5*txtSize, position[1]+txtSize/2+(1-pos)*h_height);
+      line(position[0], position[1]+(1-pos)*h_height, position[0]+txtSize, position[1]+(1-pos)*h_height);
+    }
+    int halfValue = round(sqrt(max_h+1)-1);
+    text(halfValue, position[0]+1.5*txtSize, position[1]+h_height/2+txtSize/2);
+    line(position[0], position[1]+h_height/2, position[0]+txtSize, position[1]+h_height/2);
+    
+    text(0, position[0], position[1]+h_height-txtSize/8);
+    text(255, position[0]+h_width-2*txtSize, position[1]+h_height-txtSize/8);
     
   }
   
@@ -84,10 +97,7 @@ class Histogram{ //extends PApplet {
         blues[b]++;
       }
     }
-    int max_h = max( max(reds) / 10, max(greens) / 10, max(blues) / 10 ); //<>//
-    constrain(max_h, 0, int(image.width*image.height/8));
-    
-    
+    int max_h = max( max(reds) , max(greens) , max(blues) );
     
     for (int i = 0; i < h_width; i++) {
       // Map i (from 0..width) to a location in the histogram (0..255)
@@ -95,19 +105,10 @@ class Histogram{ //extends PApplet {
       // Convert the histogram value to a location between 
       // the bottom and the top of the picture
       
-
-      red_h[i] = int(h_height * reds[index]/max_h);
-      green_h[i] = int(h_height * greens[index]/max_h);
-      blue_h[i] = int(h_height * blues[index]/max_h);
-      constrain(red_h[i], 0, int(image.width*image.height/8));
-      constrain(green_h[i], 0, int(image.width*image.height/8));
-      constrain(blue_h[i], 0, int(image.width*image.height/8));
-      
-     
-     //logarithmic scale, but processing is bad at small numbers and makes them zero which breaks it
-      //red_h[i] = h_height * round(log((h_height * float(reds[index])/(max_h)) + 1)/log(h_height+1));
-      //green_h[i] = h_height * round(log((h_height * float(greens[index])/(max_h)) + 1)/log(h_height+1));
-      //blue_h[i] = h_height * round(log((h_height * float(blues[index])/(max_h)) + 1)/log(h_height+1));
+     //logarithmic scale
+      red_h[i] = round(h_height * log(reds[index] + 1)/log(max_h + 1));
+      green_h[i] = round(h_height * log(greens[index] + 1)/log(max_h + 1));
+      blue_h[i] = round(h_height * log(blues[index] + 1)/log(max_h + 1));
     
     }
 
