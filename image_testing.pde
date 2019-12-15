@@ -9,7 +9,7 @@ PShape square;
 
 void settings() {
   //image size 1024x1024
-  size(1000, 600, P3D);
+  size(1200, 600, P3D);
   smooth();
   
 }

@@ -1,6 +1,7 @@
 class Histogram{ //extends PApplet {
   
   PImage image;
+  String title;
   int[] position = new int[]{600,0};
   int h_width = 200;   // histogram height
   int h_height = 200;  // histogram width
@@ -11,9 +12,10 @@ class Histogram{ //extends PApplet {
   int[] green_h;
   int[] blue_h;
   
-  public Histogram(PImage image) {
+  public Histogram(PImage image, String title) {
     //super();
     //PApplet.runSketch(new String[]{this.getClass().getName()}, this);
+    this.title = title;
     reds = new int[256];
     greens = new int[256];
     blues = new int[256];
@@ -30,6 +32,10 @@ class Histogram{ //extends PApplet {
   void setSize(int[] size){
     h_width = size[0];
     h_height = size[1];
+    red_h = new int[h_width];
+    green_h = new int[h_width];
+    blue_h = new int[h_width];
+    update(image);
   }
   
   public void HistDraw() {
@@ -55,24 +61,20 @@ class Histogram{ //extends PApplet {
 
     fill(0);
     stroke(0);
-    int txtSize = h_height/15;
+    int txtSize = h_height/20;
     textSize(txtSize);
     int max_h = max( max(reds) , max(greens) , max(blues) );
     
-    int lines = 4; //how many lines along y-axis
-    for (int j = 0; j < lines; j++){
-      float pos = j/lines;
-      int value = round(pow(max_h+1, pos)-1);   //<>//
-      text(value, position[0]+1.5*txtSize, position[1]+txtSize/2+(1-pos)*h_height);
+    for (float pos = 1; pos > 0; pos -= 0.25){
+      int value = round(pow(max_h+1, pos)-1);  
+      text(value, position[0]+1, position[1]+txtSize+(1-pos)*h_height);
       line(position[0], position[1]+(1-pos)*h_height, position[0]+txtSize, position[1]+(1-pos)*h_height);
     }
-    int halfValue = round(sqrt(max_h+1)-1);
-    text(halfValue, position[0]+1.5*txtSize, position[1]+h_height/2+txtSize/2);
-    line(position[0], position[1]+h_height/2, position[0]+txtSize, position[1]+h_height/2);
     
     text(0, position[0], position[1]+h_height-txtSize/8);
     text(255, position[0]+h_width-2*txtSize, position[1]+h_height-txtSize/8);
     
+    text(title, position[0]+h_width/2, position[1]+txtSize);
   }
   
   void update(PImage image) {

@@ -10,7 +10,7 @@ class FPImage {
     this.img = img;
     this.orginal_img = img.copy();
     this.filter = filter;
-    histogram = new Histogram(img);
+    histogram = new Histogram(img, filter.asString());
   }
   
   void adjustHistogram(int[] pos, int[] size){
