@@ -17,3 +17,22 @@ class DropDownArray {
   }
   
 }
+
+class DropDownArray2 {
+  
+
+  Mode[] modes = {Mode.AVERAGE,Mode.LIGHTNESS,Mode.LUMINOSITY,Mode.SEPIA};
+  
+  int getSize(){
+    return modes.length;
+  }
+  
+  Mode fromIndex(int i){
+    return modes[i];
+  }
+  
+  String display(int i){
+    return modes[i].asString();    
+  }
+  
+}

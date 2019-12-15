@@ -82,3 +82,34 @@ enum Filter{
   public abstract String asString();
   
 }
+
+
+enum Mode{
+  AVERAGE{
+  @Override
+        public String asString() {
+            return AVERAGE.toString();
+        }
+  },
+  LIGHTNESS{
+  @Override
+        public String asString() {
+            return LIGHTNESS.toString();
+        }
+  },
+  LUMINOSITY{
+  @Override
+        public String asString() {
+            return LUMINOSITY.toString();
+        }
+  },
+  SEPIA{
+  @Override
+        public String asString() {
+            return SEPIA.toString();
+        }
+  };
+ 
+  public abstract String asString();
+  
+}

@@ -44,11 +44,16 @@ class Image{
       PImage curr_img = img_hist.peekCurrOrgImg().copy();
       PImage filtered_img = filter_applier.applyFilter(curr_img, filter); 
       FPImage fpimg = new FPImage(filtered_img, filter);
+      if (filter == Filter.GREYSCALE) fpimg.setTitle(filter_applier.getGreyscale().asString()); 
       img_hist.push(fpimg);
     } else {
       img_hist.removeAllFilters();
     }
     changeChannel(Filter.NONE, 0);
+  }
+  
+  void changGreyscale(Mode mode){
+    filter_applier.setGreyscale(mode);
   }
   
   void resize_img(int new_width, int new_height){
@@ -67,6 +72,10 @@ class Image{
   
   color getPixelXY(int x, int y){
     return img.get(x,y);
+  }
+  
+  color getCurrPixelXY(int x, int y){
+    return img_hist.peekCurrImg().get(x,y);
   }
   
   int getPixelLocation(int x, int y){

@@ -4,12 +4,16 @@ Image img_gui;
 ControlP5 cp5;
 DropdownList d1;
 DropDownArray ddarray1;
+DropdownList d2;
+DropDownArray2 ddarray2;
+color alpha_color = color(140,180,240);
+int[] image_size = new int[]{800, 800};
 PShape square;
 
 
 void settings() {
   //image size 1024x1024
-  size(1200, 600, P3D);
+  size(image_size[0]+600, image_size[1], P3D);
   smooth();
   
 }
@@ -17,7 +21,7 @@ void settings() {
 //this setup() function runs before anything else               
 void setup(){
   img_gui = new Image("sunflower.jpg");
-  img_gui.resize_img(600, 600);
+  img_gui.resize_img(image_size[0], image_size[1]);
 
   createImageFrame();
   cp5 = new ControlP5(this);
@@ -31,9 +35,18 @@ void setup(){
 void draw(){
   background(128);
   shape(square, 0,0);
+  fill(0);
+  textSize(10);
+  text("Alpha Color:", image_size[0] + 20, 300);
+  fill(alpha_color);
+  rect(image_size[0] + 90, 285, 20, 20, 5);
   img_gui.image_loadPixels();
   img_gui.image_updatePixels();
   //tint(255, opacity);
   image(img_gui.getImage(), 0, 0);
 
+}
+
+void mouseClicked(){
+  if (min(mouseX,mouseY) >0 && mouseX < image_size[0] && mouseY < image_size[1]) alpha_color = img_gui.getCurrPixelXY(mouseX, mouseY);
 }

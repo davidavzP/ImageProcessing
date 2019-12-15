@@ -3,8 +3,7 @@ import java.util.*;
 class FilterApplier {
   PImage background;
   int blur_strength = 2;
-  color alpha_color = color(140,180,240);
-  int greyscale_type = 0; // 0 => average, 1 => lightness, 2 => luminosity
+  Mode greyscale_mode = Mode.AVERAGE;
   float[][] conv_matrix = { { -1 ,  0 , -1 },
                             {  0 ,  4 ,  0 },
                             { -1 ,  0 , -1 } };
@@ -16,7 +15,14 @@ class FilterApplier {
   void setBackground(PImage back_img){
     background = back_img;
   }
- 
+  
+  void setGreyscale(Mode mode){
+    greyscale_mode = mode;
+  }
+  
+  Mode getGreyscale(){
+    return greyscale_mode;
+  }
  
   PImage applyFilter(PImage image, Filter filter){
     switch(filter){
@@ -89,15 +95,24 @@ class FilterApplier {
               float red = red(original_Color);
               float green = green(original_Color);
               float blue = blue(original_Color);
-              switch(greyscale_type){
-                case 0:
+              switch(greyscale_mode){
+                case AVERAGE:
                   new_color = color(int(red + green + blue)/3);
                   break;
-                case 1:
+                case LIGHTNESS:
                   new_color = color(int(max(red,blue,green) + min(red,green,blue))/2);
                   break;
-                case 2:
+                case LUMINOSITY:
                   new_color = color(int(0.21 * red + 0.72 * green + 0.07 * blue));
+                  break;
+                case SEPIA:
+                  float new_red = 0.393*red + 0.769*green + 0.189*blue;
+                  float new_green = 0.349*red + 0.686*green + 0.168*blue;
+                  float new_blue = 0.272*red + 0.534*green + 0.131*blue;
+                  constrain(new_red, 0, 255);
+                  constrain(new_green, 0, 255);
+                  constrain(new_blue, 0, 255);
+                  new_color = color(new_red, new_green, new_blue);
                   break;
                 default:
                   new_color = color(int(red + green + blue)/3);
