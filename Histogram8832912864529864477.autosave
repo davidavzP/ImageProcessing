@@ -1,7 +1,7 @@
-class Histogram{
+class Histogram extends PApplet {
   
   PImage image;
-  String title;
+  //String title;
   int[] position = new int[]{600,0};
   int h_width = 200;   // histogram height
   int h_height = 200;  // histogram width
@@ -12,8 +12,10 @@ class Histogram{
   int[] green_h;
   int[] blue_h;
   
-  public Histogram(PImage image, String title) {
-    this.title = title;
+  //public Histogram(PImage image, String title) {
+  public Histogram(PImage image) {
+    super();
+    PApplet.runSketch(new String[]{this.getClass().getName()}, this);
     reds = new int[256];
     greens = new int[256];
     blues = new int[256];
@@ -27,6 +29,10 @@ class Histogram{
     position = pos;
   }
   
+  public void setup() {
+    surface.setTitle("Histogram");
+  }
+  /*
   void setSize(int[] size){
     h_width = size[0];
     h_height = size[1];
@@ -35,8 +41,10 @@ class Histogram{
     blue_h = new int[h_width];
     update(image);
   }
-
-  public void HistDraw() {
+  */
+  
+  //public void HistDraw() {
+    public void draw(){
     
     for (int i = 0; i < h_width; i++) {
       int loc_i = i + position[0];
@@ -84,7 +92,7 @@ class Histogram{
       greens[i] = 0;
       blues[i] = 0;
     }
-     //<>//
+    
     //calculate values
     for (int x = 0; x < image.width; x++) {
       for (int y = 0; y < image.height; y++) {
@@ -104,20 +112,27 @@ class Histogram{
       int index = int(255 * i/h_width);
       // Convert the histogram value to a location between 
       // the bottom and the top of the picture
-
+/*
+      red_h[i] = int(map(reds[which], 0, max_h, height, 0)); //<>//
+      green_h[i] = int(map(greens[which], 0, max_h, height, 0));
+      blue_h[i] = int(map(blues[which], 0, max_h, height, 0));
+*/
+      
      //logarithmic scale
       red_h[i] = round(h_height * log(reds[index] + 1)/log(max_h + 1));
       green_h[i] = round(h_height * log(greens[index] + 1)/log(max_h + 1));
       blue_h[i] = round(h_height * log(blues[index] + 1)/log(max_h + 1));
     
-/*
-      //linear scale with constrains
-      red_h[i] = int(map(reds[which], 0, max_h, height, 0)); //<>//
-      green_h[i] = int(map(greens[which], 0, max_h, height, 0));
-      blue_h[i] = int(map(blues[which], 0, max_h, height, 0));
-*/
     }
 
   }
-
+  
+  void stop(){
+    exit();
+  }
+  
+  void exit(){
+    dispose();
+    //object = null;
+  }
 }

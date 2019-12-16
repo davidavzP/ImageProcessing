@@ -2,7 +2,7 @@ class Image{
   
   ImageList img_hist = new ImageList();
   FilterApplier filter_applier = new FilterApplier();
-  ExtHistogram histogram;
+  Histogram histogram;
   PImage img;
   int img_width;
   int img_height;
@@ -17,7 +17,6 @@ class Image{
     this.img_height = img.height;
     addThisImg();
     filter_applier.setBackground(loadImage("transparencySquare.jpg"));
-    histogram = new ExtHistogram(img);
   }
   
   private void addThisImg(){
@@ -39,7 +38,8 @@ class Image{
     if (filter != Filter.NONE){
       addFilter(filter);
     } else {
-      img_hist.removeAllFilters();
+      //img_hist.removeAllFilters();
+      histogram = new Histogram(img);
     }
     changeChannel(Filter.NONE, 0);
   }
@@ -49,7 +49,7 @@ class Image{
       PImage curr_img = img_hist.peekCurrOrgImg().copy();
       PImage filtered_img = filter_applier.applyFilter(curr_img, filter); 
       FPImage fpimg = new FPImage(filtered_img, filter);
-      if (filter == Filter.GREYSCALE) fpimg.setTitle(filter_applier.getGreyscale().asString()); 
+      //if (filter == Filter.GREYSCALE) fpimg.setTitle(filter_applier.getGreyscale().asString()); 
       img_hist.push(fpimg);
   }
   
@@ -57,7 +57,7 @@ class Image{
   void changGreyscale(Mode mode){
     filter_applier.setGreyscale(mode);
   }
-
+  
   void resize_img(int new_width, int new_height){
     img_hist.clearAll();
     this.img_width = new_width;
@@ -86,12 +86,13 @@ class Image{
   
   PImage getImage(){
     //return this.img;
+    println("what's my filter: " + img_hist.listSize());
     return img_hist.peekCurrImg();
   }
   
   void image_updatePixels(){
     img_hist.peekCurrImg().updatePixels();
-    img_hist.HistDraw();
+    //img_hist.HistDraw();
   }
   
   void image_loadPixels(){
@@ -137,8 +138,9 @@ class Image{
     channel_img = filter_applier.changeRGBChannels(prev, channels);
     PImage filtered_img = filter_applier.applyFilter(channel_img, filter);
     img_hist.setChannel(filtered_img);
-    img_hist.update();
     histogram.update(this.getImage());
+    //img_hist.update();
+
   }
   
 }

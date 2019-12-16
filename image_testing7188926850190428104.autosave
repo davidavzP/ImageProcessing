@@ -31,6 +31,7 @@ void setup(){
   createDropdownList();
   createSliders();
   convgui = new ConvolutionGUI();
+
 }
 
 
@@ -50,12 +51,12 @@ void draw(){
 
 }
 
-void mouseClicked(){
-  if (min(mouseX,mouseY) >0 && mouseX < image_size[0] && mouseY < image_size[1]){
-    alpha_color = img_gui.getCurrPixelXY(mouseX, mouseY);
-  }
-}
-
 void stop(){
   exit();
+} 
+
+void mouseClicked(){
+  if (min(mouseX,mouseY) >0 && mouseX < image_size[0] && mouseY < image_size[1]){
+      alpha_color = img_gui.getCurrPixelXY(mouseX, mouseY);
+  }
 }
