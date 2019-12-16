@@ -49,6 +49,9 @@ class FilterApplier {
         case CONVOLUTION:
           image = applyConvolution(image, new Matrix(conv_matrix, conv_matrix.length));
           break;
+        case USRCONVOLUTION:
+          image = applyConvolution(image, filter.getMatrix());
+          break;
         case COLORTOALPHA:
           image = applyColorToAlpha(image, alpha_color);
           break;

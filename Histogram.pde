@@ -1,4 +1,4 @@
-class Histogram{ //extends PApplet {
+class Histogram{
   
   PImage image;
   String title;
@@ -11,10 +11,26 @@ class Histogram{ //extends PApplet {
   int[] red_h;  //height of the histogram graph
   int[] green_h;
   int[] blue_h;
+  ExtraWindow hist_window;
+  
+  public Histogram(PImage image){
+    mainFunctions mF = new mainFunctions(){
+                    void doSetup(){HistSetup();};
+                    void doSettings(){};
+                    void doDraw(){HistDraw();};
+                  };
+    hist_window = new ExtraWindow(mF);
+    this.title = "original";
+    reds = new int[256];
+    greens = new int[256];
+    blues = new int[256];
+    red_h = new int[h_width];
+    green_h = new int[h_width];
+    blue_h = new int[h_width];
+    update(image);
+  }
   
   public Histogram(PImage image, String title) {
-    //super();
-    //PApplet.runSketch(new String[]{this.getClass().getName()}, this);
     this.title = title;
     reds = new int[256];
     greens = new int[256];
@@ -37,7 +53,11 @@ class Histogram{ //extends PApplet {
     blue_h = new int[h_width];
     update(image);
   }
-  
+
+  public void HistSetup() {
+    surface.setTitle("Histogram");
+  }
+
   public void HistDraw() {
     
     for (int i = 0; i < h_width; i++) {
@@ -106,14 +126,28 @@ class Histogram{ //extends PApplet {
       int index = int(255 * i/h_width);
       // Convert the histogram value to a location between 
       // the bottom and the top of the picture
-      
+
      //logarithmic scale
       red_h[i] = round(h_height * log(reds[index] + 1)/log(max_h + 1));
       green_h[i] = round(h_height * log(greens[index] + 1)/log(max_h + 1));
       blue_h[i] = round(h_height * log(blues[index] + 1)/log(max_h + 1));
     
+/*
+      red_h[i] = int(map(reds[which], 0, max_h, height, 0)); //<>//
+      green_h[i] = int(map(greens[which], 0, max_h, height, 0));
+      blue_h[i] = int(map(blues[which], 0, max_h, height, 0));
+*/
     }
 
   }
-  
+/*  
+  void stop(){
+    exit();
+  }
+  void exit()
+  {
+    dispose();
+    //object = null;
+  }
+*/
 }

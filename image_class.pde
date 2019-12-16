@@ -2,16 +2,12 @@ class Image{
   
   ImageList img_hist = new ImageList();
   FilterApplier filter_applier = new FilterApplier();
-  
+  Histogram histogram;
   PImage img;
   int img_width;
   int img_height;
   
   float[] channels = {0, 0, 0 , 1};
-
-  
-  // unused code
-  //int refreshrate = 60; //every x frames filters are reapplied
 
  
   //loads an Image from a file
@@ -34,28 +30,34 @@ class Image{
     img = createImage(img_width, img_height, RGB);
     this.img_width = img.width;
     this.img_height = img.height;
+    histogram = new Histogram(img);
   }
   
   void newFilter(Filter filter){
     //apply filter to last thing in the linked then append new img then apply any red blue or green values
     //need to check the Linked list to see if the filter already exists to not have overlaps...maybe 
     if (filter != Filter.NONE){
-      img_hist.clearLastImg();
-      PImage curr_img = img_hist.peekCurrOrgImg().copy();
-      PImage filtered_img = filter_applier.applyFilter(curr_img, filter); 
-      FPImage fpimg = new FPImage(filtered_img, filter);
-      if (filter == Filter.GREYSCALE) fpimg.setTitle(filter_applier.getGreyscale().asString()); 
-      img_hist.push(fpimg);
+      addFilter(filter);
     } else {
       img_hist.removeAllFilters();
     }
     changeChannel(Filter.NONE, 0);
   }
   
+  void addFilter(Filter filter){
+      img_hist.clearLastImg();
+      PImage curr_img = img_hist.peekCurrOrgImg().copy();
+      PImage filtered_img = filter_applier.applyFilter(curr_img, filter); 
+      FPImage fpimg = new FPImage(filtered_img, filter);
+      if (filter == Filter.GREYSCALE) fpimg.setTitle(filter_applier.getGreyscale().asString()); 
+      img_hist.push(fpimg);
+  }
+  
+
   void changGreyscale(Mode mode){
     filter_applier.setGreyscale(mode);
   }
-  
+
   void resize_img(int new_width, int new_height){
     img_hist.clearAll();
     this.img_width = new_width;
@@ -136,6 +138,7 @@ class Image{
     PImage filtered_img = filter_applier.applyFilter(channel_img, filter);
     img_hist.setChannel(filtered_img);
     img_hist.update();
+    histogram.update(this.getImage());
   }
   
 }

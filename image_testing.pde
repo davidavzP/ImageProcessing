@@ -1,3 +1,4 @@
+
 import controlP5.*;
 
 Image img_gui;
@@ -9,6 +10,8 @@ DropDownArray2 ddarray2;
 color alpha_color = color(140,180,240);
 int[] image_size = new int[]{800, 800};
 PShape square;
+ConvolutionGUI convgui;
+
 
 
 void settings() {
@@ -20,14 +23,14 @@ void settings() {
 
 //this setup() function runs before anything else               
 void setup(){
-  img_gui = new Image("sunflower.jpg");
+  img_gui = new Image("butterfly.jpg");
   img_gui.resize_img(image_size[0], image_size[1]);
 
   createImageFrame();
   cp5 = new ControlP5(this);
   createDropdownList();
   createSliders();
-  
+  convgui = new ConvolutionGUI();
 }
 
 
@@ -48,5 +51,7 @@ void draw(){
 }
 
 void mouseClicked(){
-  if (min(mouseX,mouseY) >0 && mouseX < image_size[0] && mouseY < image_size[1]) alpha_color = img_gui.getCurrPixelXY(mouseX, mouseY);
+  if (min(mouseX,mouseY) >0 && mouseX < image_size[0] && mouseY < image_size[1]){
+    alpha_color = img_gui.getCurrPixelXY(mouseX, mouseY);
+  }
 }

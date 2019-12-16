@@ -93,6 +93,8 @@ void createAlphaSlider(){
      ;
 }
 
+
+
 void controlEvent(ControlEvent theEvent) {
   if (theEvent.isGroup()) {
     println("event from group : "+theEvent.getGroup().getValue()+" from "+theEvent.getGroup());
