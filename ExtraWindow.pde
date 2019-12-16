@@ -4,16 +4,19 @@ class ExtraWindow extends PApplet{
   
   ExtraWindow(mainFunctions mF){
     super();
-    execute = mF;
     PApplet.runSketch(new String[]{this.getClass().getName()}, this);
+    execute = mF;
   }
   
   void settings(){
-    execute.doSettings();
+    size(500, 400, P3D);
+    smooth();
+    //execute.doSettings();
   }
   
   void setup(){
-    execute.doSetup();
+    surface.setTitle("Histogram");
+    //execute.doSetup();
   }
   
   void draw(){
