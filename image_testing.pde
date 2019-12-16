@@ -8,7 +8,7 @@ DropDownArray ddarray1;
 DropdownList d2;
 DropDownArray2 ddarray2;
 color alpha_color = color(140,180,240);
-int[] image_size = new int[]{800, 800};
+int[] image_size = new int[]{1000, 1000};
 PShape square;
 ConvolutionGUI convgui;
 
@@ -16,7 +16,7 @@ ConvolutionGUI convgui;
 
 void settings() {
   //image size 1024x1024
-  size(image_size[0]+600, image_size[1], P3D);
+  size(image_size[0]+900, image_size[1], P3D);
   smooth();
   
 }
@@ -54,4 +54,8 @@ void mouseClicked(){
   if (min(mouseX,mouseY) >0 && mouseX < image_size[0] && mouseY < image_size[1]){
     alpha_color = img_gui.getCurrPixelXY(mouseX, mouseY);
   }
+}
+
+void stop(){
+  exit();
 }

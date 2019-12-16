@@ -2,7 +2,7 @@ class Image{
   
   ImageList img_hist = new ImageList();
   FilterApplier filter_applier = new FilterApplier();
-  //ExtraWindow histogram;
+  //Histogram histogram;
   PImage img;
   int img_width;
   int img_height;
@@ -30,7 +30,7 @@ class Image{
     img = createImage(img_width, img_height, RGB);
     this.img_width = img.width;
     this.img_height = img.height;
-    //histogram = new ExtraWindow(img);
+    //histogram = new ExtraHistogram(img);
   }
   
   void newFilter(Filter filter){
