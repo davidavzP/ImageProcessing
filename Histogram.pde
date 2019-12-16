@@ -11,24 +11,6 @@ class Histogram{
   int[] red_h;  //height of the histogram graph
   int[] green_h;
   int[] blue_h;
-  ExtraWindow hist_window;
-  
-  public Histogram(PImage image){
-    mainFunctions mF = new mainFunctions(){
-                    void doSetup(){HistSetup();};
-                    void doSettings(){HistSettings();};
-                    void doDraw(){HistDraw();};
-                  };
-    hist_window = new ExtraWindow(mF);
-    this.title = "original";
-    reds = new int[256];
-    greens = new int[256];
-    blues = new int[256];
-    red_h = new int[h_width];
-    green_h = new int[h_width];
-    blue_h = new int[h_width];
-    update(image);
-  }
   
   public Histogram(PImage image, String title) {
     this.title = title;
@@ -52,15 +34,6 @@ class Histogram{
     green_h = new int[h_width];
     blue_h = new int[h_width];
     update(image);
-  }
-  
-  public void HistSettings() {
-    size(500, 400, P3D);
-    smooth();
-  }
-
-  public void HistSetup() {
-    surface.setTitle("Histogram");
   }
 
   public void HistDraw() {
@@ -145,14 +118,5 @@ class Histogram{
     }
 
   }
-/*  
-  void stop(){
-    exit();
-  }
-  void exit()
-  {
-    dispose();
-    //object = null;
-  }
-*/
+
 }

@@ -2,7 +2,7 @@ class Image{
   
   ImageList img_hist = new ImageList();
   FilterApplier filter_applier = new FilterApplier();
-  Histogram histogram;
+  //ExtraWindow histogram;
   PImage img;
   int img_width;
   int img_height;
@@ -30,7 +30,7 @@ class Image{
     img = createImage(img_width, img_height, RGB);
     this.img_width = img.width;
     this.img_height = img.height;
-    histogram = new Histogram(img);
+    //histogram = new ExtraWindow(img);
   }
   
   void newFilter(Filter filter){
@@ -138,7 +138,7 @@ class Image{
     PImage filtered_img = filter_applier.applyFilter(channel_img, filter);
     img_hist.setChannel(filtered_img);
     img_hist.update();
-    histogram.update(this.getImage());
+    //histogram.update(this.getImage());
   }
   
 }
