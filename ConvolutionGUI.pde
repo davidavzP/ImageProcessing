@@ -101,5 +101,7 @@ class ConvolutionGUI extends PApplet {
       return d;
   }
  
-  
+  void close(){
+    exit();
+  }
 }
