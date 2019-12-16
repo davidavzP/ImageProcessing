@@ -138,7 +138,7 @@ class Image{
     PImage filtered_img = filter_applier.applyFilter(channel_img, filter);
     img_hist.setChannel(filtered_img);
     img_hist.update();
-    histogram.update(this.getImage());
+    //histogram.update(this.getImage());
   }
   
 }

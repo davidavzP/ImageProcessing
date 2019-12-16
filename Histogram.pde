@@ -16,7 +16,7 @@ class Histogram{
   public Histogram(PImage image){
     mainFunctions mF = new mainFunctions(){
                     void doSetup(){HistSetup();};
-                    void doSettings(){};
+                    void doSettings(){HistSettings();};
                     void doDraw(){HistDraw();};
                   };
     hist_window = new ExtraWindow(mF);
@@ -52,6 +52,11 @@ class Histogram{
     green_h = new int[h_width];
     blue_h = new int[h_width];
     update(image);
+  }
+  
+  public void HistSettings() {
+    size(500, 400, P3D);
+    smooth();
   }
 
   public void HistSetup() {
