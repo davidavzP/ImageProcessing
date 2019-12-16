@@ -1,3 +1,4 @@
+
 import controlP5.*;
 
 Image img_gui;
@@ -6,6 +7,8 @@ DropdownList d1;
 DropDownArray ddarray1;
 PShape square;
 int opacity;
+ConvolutionGUI convgui;
+
 
 void settings() {
   //image size 1024x1024
@@ -15,15 +18,16 @@ void settings() {
 
 //this setup() function runs before anything else               
 void setup(){
-  img_gui = new Image("sunflower.jpg");
+  img_gui = new Image("butterfly.jpg");
   img_gui.resize_img(600, 600);
 
   createImageFrame();
   cp5 = new ControlP5(this);
   createDropdownList();
   createSliders();
-  
   opacity = 255;
+  
+  convgui = new ConvolutionGUI();
 }
 
 
@@ -36,6 +40,8 @@ void draw(){
   //tint(255, opacity);
   image(img_gui.getImage(), 0, 0);
 }
+
+
 
 void stop(){
   exit();

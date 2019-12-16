@@ -4,11 +4,28 @@ enum Filter{
         public String asString() {
             return GREYSCALE.toString();
         }
+        
+  @Override    
+        public void setMatrix(Matrix x){
+          m = x;
+        }
+  @Override   
+        public Matrix getMatrix(){
+            return m;
+        }
   },
   NEGATIVE{
-  @Override
-        public String asString() {
-            return NEGATIVE.toString();
+    @Override
+          public String asString() {
+              return NEGATIVE.toString();
+          }
+    @Override    
+        public void setMatrix(Matrix x){
+          m = x;
+        }
+    @Override   
+        public Matrix getMatrix(){
+            return m;
         }
   },
   CONVOLUTION{
@@ -16,11 +33,45 @@ enum Filter{
         public String asString() {
             return CONVOLUTION.toString();
         }
+     @Override    
+        public void setMatrix(Matrix x){
+          m = x;
+        }
+    @Override   
+        public Matrix getMatrix(){
+            return m;
+        }
+  },
+  USRCONVOLUTION{
+    
+    @Override
+        public String asString() {
+            return USRCONVOLUTION.toString();
+        }
+    @Override    
+        public void setMatrix(Matrix x){
+          m = x;
+        }
+    @Override   
+        public Matrix getMatrix(){
+            return m;
+        }
+        
+        
+        
   },
   GAUSS{
     @Override
         public String asString() {
             return GAUSS.toString();
+        }
+          @Override    
+        public void setMatrix(Matrix x){
+          m = x;
+        }
+    @Override   
+        public Matrix getMatrix(){
+            return m;
         }
   },
   BOX_BLUR{
@@ -28,11 +79,28 @@ enum Filter{
         public String asString() {
             return BOX_BLUR.toString();
         }
+         @Override    
+        public void setMatrix(Matrix x){
+          m = x;
+        }
+    @Override   
+        public Matrix getMatrix(){
+            return m;
+        }
   },
   SHARP{
     @Override
         public String asString() {
             return SHARP.toString();
+        }
+        
+         @Override    
+        public void setMatrix(Matrix x){
+          m = x;
+        }
+    @Override   
+        public Matrix getMatrix(){
+            return m;
         }
   },
   EDGE{
@@ -40,11 +108,29 @@ enum Filter{
         public String asString() {
             return EDGE.toString();
         }
+        
+         @Override    
+        public void setMatrix(Matrix x){
+          m = x;
+        }
+    @Override   
+        public Matrix getMatrix(){
+            return m;
+        }
   },
   REDCHANNEL{
     @Override
         public String asString() {
             return REDCHANNEL.toString();
+        }
+        
+          @Override    
+        public void setMatrix(Matrix x){
+          m = x;
+        }
+    @Override   
+        public Matrix getMatrix(){
+            return m;
         }
   },
   GREENCHANNEL{
@@ -52,11 +138,28 @@ enum Filter{
         public String asString() {
             return GREENCHANNEL.toString();
         }
+        
+          @Override    
+        public void setMatrix(Matrix x){
+          m = x;
+        }
+    @Override   
+        public Matrix getMatrix(){
+            return m;
+        }
   },
   BLUECHANNEL{
     @Override
         public String asString() {
             return BLUECHANNEL.toString();
+        }
+          @Override    
+        public void setMatrix(Matrix x){
+          m = x;
+        }
+    @Override   
+        public Matrix getMatrix(){
+            return m;
         }
   },
   ALPHACHANNEL{
@@ -64,11 +167,27 @@ enum Filter{
         public String asString() {
             return ALPHACHANNEL.toString();
         }
+          @Override    
+        public void setMatrix(Matrix x){
+          m = x;
+        }
+    @Override   
+        public Matrix getMatrix(){
+            return m;
+        }
   },
   COLORTOALPHA{
     @Override
         public String asString() {
             return COLORTOALPHA.toString();
+        }
+          @Override    
+        public void setMatrix(Matrix x){
+          m = x;
+        }
+    @Override   
+        public Matrix getMatrix(){
+            return m;
         }
   },
   NONE{
@@ -76,9 +195,20 @@ enum Filter{
         public String asString() {
             return NONE.toString();
         }
+         @Override    
+        public void setMatrix(Matrix x){
+          m = x;
+        }
+    @Override   
+        public Matrix getMatrix(){
+            return m;
+        }
   };
   
  
   public abstract String asString();
+  public abstract Matrix getMatrix();
+  public abstract void setMatrix(Matrix m);
+  public Matrix m;
   
 }

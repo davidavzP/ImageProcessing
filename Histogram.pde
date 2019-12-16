@@ -27,7 +27,7 @@ class Histogram extends PApplet {
   
   public void setup() {
     surface.setTitle("Histogram");
-    frameRate(1);
+  
   }
   
   public void draw() {
@@ -84,13 +84,19 @@ class Histogram extends PApplet {
 
       // Convert the histogram value to a location between 
       // the bottom and the top of the picture
-      red_h[i] = int(map(reds[which], 0, max_h, height, 0));
+      red_h[i] = int(map(reds[which], 0, max_h, height, 0)); //<>//
       green_h[i] = int(map(greens[which], 0, max_h, height, 0));
       blue_h[i] = int(map(blues[which], 0, max_h, height, 0));
     }
 
   }
-  void  stop(){
-  exit();
-}
+  
+  void stop(){
+    exit();
+  }
+  void exit()
+  {
+    dispose();
+    //object = null;
+  }
 }

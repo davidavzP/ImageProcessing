@@ -40,16 +40,21 @@ class Image{
     //add some order to ensure that negative is the last thing applied 
     //then make logic for applying the rbg values on top
     if (filter != Filter.NONE){
-      img_hist.clearLastImg();
-      PImage curr_img = img_hist.peekCurrOrgImg().copy();
-      PImage filtered_img = filter_applier.applyFilter(curr_img, filter); 
-      FPImage fpimg = new FPImage(filtered_img, filter);
-      img_hist.push(fpimg);
+      addFilter(filter);
     } else {
       img_hist.removeAllFilters();
     }
     changeChannel(Filter.NONE, 0);
   }
+  
+  void addFilter(Filter filter){
+      img_hist.clearLastImg();
+      PImage curr_img = img_hist.peekCurrOrgImg().copy();
+      PImage filtered_img = filter_applier.applyFilter(curr_img, filter); 
+      FPImage fpimg = new FPImage(filtered_img, filter);
+      img_hist.push(fpimg);
+  }
+  
   
   void resize_img(int new_width, int new_height){
     img_hist.clearAll();
@@ -74,6 +79,7 @@ class Image{
   
   PImage getImage(){
     //return this.img;
+    println("what's my filter: " + img_hist.listSize());
     return img_hist.peekCurrImg();
   }
   
@@ -125,6 +131,7 @@ class Image{
     PImage filtered_img = filter_applier.applyFilter(channel_img, filter);
     img_hist.setChannel(filtered_img);
     histogram.update(this.getImage());
+    
   }
   
 }

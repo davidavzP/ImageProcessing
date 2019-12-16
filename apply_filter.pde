@@ -43,6 +43,9 @@ class FilterApplier {
         case CONVOLUTION:
           image = applyConvolution(image, new Matrix(conv_matrix, conv_matrix.length));
           break;
+        case USRCONVOLUTION:
+          image = applyConvolution(image, filter.getMatrix());
+          break;
         case COLORTOALPHA:
           image = applyColorToAlpha(image, alpha_color);
           break;
@@ -67,59 +70,7 @@ class FilterApplier {
      return img;
   }
 
-  //These are not used
-  //
-  //PImage changeRedChannel(PImage img, int val){
-  //   for(int x = 0; x < img.width; x++){
-  //          for(int y = 0; y <  img.height; y++){
-  //            color original_Color = img.get(x,y);
-  //            color new_color;
-  //            float red = red(original_Color);
-  //            float green = green(original_Color);
-  //            float blue = blue(original_Color);
-  //            int added_red = int(red) + val;
-  //            int new_val = constrain(added_red, 0, 255);
-  //            new_color = color(new_val, green, blue);
-  //            img.set(x,y, new_color);
-  //          }
-  //   }
-  //   return img;
-  //}
-  
-  //PImage changeGreenChannel(PImage img, int val){
-  //   for(int x = 0; x < img.width; x++){
-  //          for(int y = 0; y <  img.height; y++){
-  //            color original_Color = img.get(x,y);
-  //            color new_color;
-  //            float red = red(original_Color);
-  //            float green = green(original_Color);
-  //            float blue = blue(original_Color);
-  //            int added_green = int(green) + val;
-  //            int new_val = constrain(added_green, 0, 255);
-  //            new_color = color(red, new_val, blue);
-  //            img.set(x,y, new_color);
-  //          }
-  //   }
-  //   return img;
-  //}
-  
-  //PImage changeBlueChannel(PImage img, int val){
-  //   for(int x = 0; x < img.width; x++){
-  //          for(int y = 0; y <  img.height; y++){
-  //            color original_Color = img.get(x,y);
-  //            color new_color;
-  //            float red = red(original_Color);
-  //            float green = green(original_Color);
-  //            float blue = blue(original_Color);
-  //            //this makes something pretty int added_blue = int(green) + val;
-  //            int added_blue = int(blue) + val;
-  //            int new_val = constrain(added_blue, 0, 255);
-  //            new_color = color(red, green, new_val);
-  //            img.set(x,y, new_color);
-  //          }
-  //   }
-  //   return img;
-  //}
+ 
   
   color blendWithBackImg(color org, int x, int y, float val){
     int new_X = (x % background.width);
@@ -134,23 +85,6 @@ class FilterApplier {
     return color(red,green,blue);
   }
   
-  /*
-  PImage changeAlphaChannel(PImage img, int val){
-    println("alpha val is " + val);
-    for(int x = 0; x < img.width; x++){
-        for(int y = 0; y <  img.height; y++){
-        color original_Color = img.get(x,y);
-        //float red = red(original_Color);
-        //float green = green(original_Color);
-        //float blue = blue(original_Color);
-        //val = int(map(new_val, 1, 0, 255, 0));
-        color new_color = blendWithBackImg(original_Color, x, y, val);
-        img.set(x,y, new_color);
-      }
-     }
-     return img;
-  }
- */
  
   PImage applyGreyscale(PImage img){
     for(int x = 0; x < img.width; x++){
