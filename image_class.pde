@@ -34,8 +34,6 @@ class Image{
   }
   
   void newFilter(Filter filter){
-    //apply filter to last thing in the linked then append new img then apply any red blue or green values
-    //need to check the Linked list to see if the filter already exists to not have overlaps...maybe 
     if (filter != Filter.NONE){
       addFilter(filter);
     } else {
@@ -53,19 +51,20 @@ class Image{
       img_hist.push(fpimg);
   }
   
-
-  void changGreyscale(Mode mode){
+  void changeGreyscale(Mode mode){
     filter_applier.setGreyscale(mode);
   }
 
   void resize_img(int new_width, int new_height){
     img_hist.clearAll();
+    setToResize(new_width, new_height);
+    addThisImg();
+  }
+  
+  private void setToResize(int new_width, int new_height){
     this.img_width = new_width;
     this.img_height = new_height;
     this.img.resize(img_width, img_height);
-     //this should do resizing
-    addThisImg();
-    
   }
   
   void setPixelXY(int x, int y, color c){
@@ -85,7 +84,6 @@ class Image{
   }
   
   PImage getImage(){
-    //return this.img;
     return img_hist.peekCurrImg();
   }
   
@@ -106,14 +104,28 @@ class Image{
     return img_height;
   }
   
-  //this will actually change the last img value to be the new rgb value
-  void changeChannel(Filter f, float val){
-    
+  void changeChannel(Filter new_f, float val){
     img_hist.clearLastImg();
     PImage prev = img_hist.getPrevImg().copy();
     Filter filter = img_hist.getCurrFilter();
-    PImage channel_img;
-    
+    setNewChannel(new_f, filter, val, prev);
+    updateHistograms();
+  }
+  
+  private void setNewChannel(Filter new_f, Filter filter, float val, PImage prev){
+    PImage channel_img = getChannel(new_f, val, prev);
+    channel_img = filter_applier.changeRGBChannels(prev, channels);
+    PImage filtered_img = filter_applier.applyFilter(channel_img, filter);
+    img_hist.setChannel(filtered_img);
+  }
+  
+  private void updateHistograms(){
+    img_hist.update();
+    histogram.update(this.getImage());
+  }
+  
+  private PImage getChannel(Filter f, float val, PImage prev){
+    PImage channel_img = prev;
     switch(f){
       case REDCHANNEL:
               channels[0] = val;
@@ -129,16 +141,8 @@ class Image{
               channels[3] = (100 - val)/100;
               channel_img = prev;
               break;
-      default:
-              channel_img = prev;
-              break;
     }
-    
-    channel_img = filter_applier.changeRGBChannels(prev, channels);
-    PImage filtered_img = filter_applier.applyFilter(channel_img, filter);
-    img_hist.setChannel(filtered_img);
-    img_hist.update();
-    histogram.update(this.getImage());
+    return channel_img;
   }
   
 }

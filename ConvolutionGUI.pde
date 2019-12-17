@@ -24,16 +24,27 @@ class ConvolutionGUI extends PApplet {
   public void setup() {
     surface.setTitle("Convolution");
     cp5_conv = new ControlP5(this);
+    buildGUI();
+    
+  }
+  
+  private void buildGUI(){
+    buildTextFieldMatrix();
+    createConvolButton();
+  }
+  
+  private void buildTextFieldMatrix(){
     PFont font = createFont("arial",20);
     createTextFieldMatrix(74, 100);
-    textFont(font);
-    
-    cp5_conv.addBang("convolve")
+    textFont(font); 
+  }
+  
+  private void createConvolButton(){
+        cp5_conv.addBang("convolve")
    .setPosition(150,25)
    .setSize(100,50)
    .getCaptionLabel().align(ControlP5.CENTER, ControlP5.CENTER)
    ;    
-    
   }
   
   

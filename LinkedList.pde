@@ -57,6 +57,7 @@ class FPImage {
 
 class ImageList{
   LinkedList<FPImage> list = new LinkedList<FPImage>();
+  //this needs to be moved!
   int[] histogram_start_pos = new int[]{image_size[0] +  200, 0};
   int[] histogram_size = new int[]{100,100};
   

@@ -101,12 +101,7 @@ void controlEvent(ControlEvent theEvent) {
   } 
   else if (theEvent.isController()) {
       if (theEvent.isFrom(cp5.getController("Filter List"))) {
-        println("this event was triggered by Controller Fitler");
-        println("event from controller : "+theEvent.getController().getValue()+" from "+theEvent.getController());
-        int clicked = int(theEvent.getController().getValue()); 
-        Filter filter = ddarray1.fromIndex(clicked);
-        println(" Filter: " + filter.asString());
-        img_gui.newFilter(filter);
+          makeNewFilter(theEvent);
       } else if(theEvent.isFrom(cp5.getController("Red Slider"))){
            setChannelValue(theEvent, Filter.REDCHANNEL);
       }else if(theEvent.isFrom(cp5.getController("Green Slider"))){
@@ -116,15 +111,25 @@ void controlEvent(ControlEvent theEvent) {
       }else if(theEvent.isFrom(cp5.getController("Alpha Slider"))){
           setChannelValue(theEvent, Filter.ALPHACHANNEL);
       }else if (theEvent.isFrom(cp5.getController("Greyscale Mode"))){
-        int clicked = int(theEvent.getController().getValue()); 
-        Mode mode = ddarray2.fromIndex(clicked);
-        img_gui.changGreyscale(mode);
+          addNewGreyScaleMode(theEvent);
       }
      
   }
 }
 
-void setChannelValue(ControlEvent theEvent, Filter f){
+private void addNewGreyScaleMode(ControlEvent theEvent){
+        int clicked = int(theEvent.getController().getValue()); 
+        Mode mode = ddarray2.fromIndex(clicked);
+        img_gui.changeGreyscale(mode);
+}
+
+private void makeNewFilter(ControlEvent theEvent){
+        int clicked = int(theEvent.getController().getValue()); 
+        Filter filter = ddarray1.fromIndex(clicked);
+        img_gui.newFilter(filter);
+}
+
+private void setChannelValue(ControlEvent theEvent, Filter f){
          println("event from controller : "+theEvent.getController().getValue()+" from "+theEvent.getController());
          int clicked = int(theEvent.getController().getValue());
          //if (f == Filter.ALPHACHANNEL) opacity = int(map(clicked, 0, 100, 0, 255));

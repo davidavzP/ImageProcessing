@@ -8,7 +8,7 @@ DropDownArray ddarray1;
 DropdownList d2;
 DropDownArray2 ddarray2;
 color alpha_color = color(140,180,240);
-int[] image_size = new int[]{800, 800};
+int[] image_size = new int[]{600, 600};
 PShape square;
 ConvolutionGUI convgui;
 
@@ -25,29 +25,50 @@ void settings() {
 void setup(){
   img_gui = new Image("butterfly.jpg");
   img_gui.resize_img(image_size[0], image_size[1]);
+  buildGUI();
+  createConvolWindow();
+}
 
-  createImageFrame();
-  cp5 = new ControlP5(this);
-  createDropdownList();
-  createSliders();
+public void createConvolWindow(){
   convgui = new ConvolutionGUI();
 }
 
+public void buildGUI(){
+  cp5 = new ControlP5(this);
+  createGUIComponents();
+}
+
+public void createGUIComponents(){
+  
+  createImageFrame();
+  createDropdownList();
+  createSliders();
+}
 
 //this draw() function is a loop that gets called over and over again
 void draw(){
   background(128);
+  drawColorBox();
+  getImagePixels();
+  drawImagetoScreen();
+}
+
+public void drawImagetoScreen(){
+  image(img_gui.getImage(), 0, 0);
+}
+
+public void getImagePixels(){
+  img_gui.image_loadPixels();
+  img_gui.image_updatePixels();
+}
+
+public void drawColorBox(){
   shape(square, 0,0);
   fill(0);
   textSize(10);
   text("Alpha Color:", image_size[0] + 20, 300);
   fill(alpha_color);
   rect(image_size[0] + 90, 285, 20, 20, 5);
-  img_gui.image_loadPixels();
-  img_gui.image_updatePixels();
-  //tint(255, opacity);
-  image(img_gui.getImage(), 0, 0);
-
 }
 
 void mouseClicked(){
