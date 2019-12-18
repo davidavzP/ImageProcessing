@@ -50,11 +50,12 @@ void draw(){
   background(128);
   drawColorBox();
   getImagePixels();
-  drawImagetoScreen();
+  drawImagetoScreen(0,0);
 }
 
-public void drawImagetoScreen(){
-  image(img_gui.getImage(), 0, 0);
+public void drawImagetoScreen(float x,float y){
+  image(img_gui.getImage(), x,y);
+  
 }
 
 public void getImagePixels(){

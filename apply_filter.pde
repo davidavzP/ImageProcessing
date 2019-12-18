@@ -27,6 +27,8 @@ class FilterApplier {
   PImage applyFilter(PImage image, Filter filter){
     switch(filter){
       case GREYSCALE:
+    
+
           image = applyGreyscale(image);
           break;
        case NEGATIVE:
@@ -55,6 +57,7 @@ class FilterApplier {
         case COLORTOALPHA:
           image = applyColorToAlpha(image, alpha_color);
           break;
+
     }
     return image; 
   }
@@ -92,13 +95,24 @@ class FilterApplier {
   PImage applyGreyscale(PImage img){
     for(int x = 0; x < img.width; x++){
             for(int y = 0; y < img.height; y++){
-              //do image processing
               color original_Color = img.get(x,y);
-              color new_color;
-              float red = red(original_Color);
-              float green = green(original_Color);
-              float blue = blue(original_Color);
-              switch(greyscale_mode){
+              int new_color = applyGreyScale(original_Color);
+              img.set(x,y,new_color);
+            }
+    }
+    return img;
+  }
+  
+  color applyGreyScale(color original_Color){
+    float red = red(original_Color);
+    float green = green(original_Color);
+    float blue = blue(original_Color);
+    return pickGreyScale(red, green, blue);
+  }
+  
+  color pickGreyScale(float red, float green, float blue){
+    color new_color;
+    switch(greyscale_mode){
                 case AVERAGE:
                   new_color = color(int(red + green + blue)/3);
                   break;
@@ -121,10 +135,7 @@ class FilterApplier {
                   new_color = color(int(red + green + blue)/3);
                   break;
               }
-              img.set(x,y,new_color);
-            }
-    }
-    return img;
+     return new_color;
   }
   
   PImage applyColorToAlpha(PImage img, color col){
@@ -145,7 +156,6 @@ class FilterApplier {
   }
   
   PImage applyNegative(PImage img){
- 
     for(int x = 0; x < img.width; x++){
             for(int y = 0; y < img.height; y++){
               //do image processing
@@ -199,14 +209,16 @@ class FilterApplier {
   }
   
   PImage applyConvolution(PImage img, Matrix matrix){
+
     PImage result = new PImage(img.width, img.height);
     for(int x = 0; x < img.width; x++){
       for(int y = 0; y < img.height; y++){
         int pixel_loc = x + y*img.width;
         color conv_color = convoluteAt(img, x, y, matrix);
         result.pixels[pixel_loc] = conv_color;
+        }
       }
-    }
+    
     return result;
   }
 
@@ -248,4 +260,6 @@ class FilterApplier {
 
     return color(pixel_val_R, pixel_val_G, pixel_val_B);
   }
+  
+
 }

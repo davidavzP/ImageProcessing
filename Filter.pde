@@ -190,6 +190,20 @@ enum Filter{
             return m;
         }
   },
+  MANDEL{
+    @Override
+        public String asString() {
+            return MANDEL.toString();
+        }
+          @Override    
+        public void setMatrix(Matrix x){
+          m = x;
+        }
+    @Override   
+        public Matrix getMatrix(){
+            return m;
+        }
+  },
   NONE{
     @Override
         public String asString() {
