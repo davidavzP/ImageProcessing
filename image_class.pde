@@ -137,7 +137,6 @@ class Image{
               channels[2] = val;
               break;
       case ALPHACHANNEL:
-      // to be fixed
               channels[3] = (100 - val)/100;
               channel_img = prev;
               break;
